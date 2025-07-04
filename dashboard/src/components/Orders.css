@@ -1,0 +1,45 @@
+.title {
+  font-size: 1.3rem;
+  font-weight: 300;
+  color: rgb(71, 71, 71);
+  margin-bottom: 2%;
+}
+
+.order-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.order-table tr {
+  border-top: 1px solid #f1f1f1;
+  border-bottom: 1px solid #f1f1f1;
+}
+
+.order-table th {
+  text-align: right;
+  padding: 15px 10px;
+  color: rgb(145, 145, 145);
+  font-weight: 300;
+  font-size: 0.8rem;
+}
+
+.order-table td {
+  padding: 10px 10px;
+  text-align: right;
+  font-weight: 400;
+  font-size: 0.9rem;
+  color: rgb(73, 73, 73);
+}
+
+.delete-btn {
+  background-color: rgb(255, 0, 0);
+  border: none;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+.delete-btn:hover {
+  background-color: rgba(240, 45, 45, 0.902);
+}
