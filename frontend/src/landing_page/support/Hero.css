@@ -1,0 +1,36 @@
+#supportHero {
+  background-color: rgb(56, 126, 209);
+  color: white;
+  padding-left: 8.5rem;
+}
+
+.support-right {
+  display: flex;
+  justify-content: end;
+  font-size: 16px;
+  padding-right: 8.5rem;
+}
+
+#search-box {
+  padding: 12px 20px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  width: 70%;
+  font-size: 16px;
+}
+
+#quick-links a {
+  color: white;
+  padding-right: 16px;
+  text-decoration: underline;
+}
+
+.features a {
+  color: white;
+  text-decoration: underline;
+}
+
+#tickets {
+  color: white;
+  margin-left: 20rem;
+}

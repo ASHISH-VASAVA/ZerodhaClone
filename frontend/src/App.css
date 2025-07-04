@@ -1,0 +1,12 @@
+.nav-link {
+  margin-left: 40px;
+}
+
+* a {
+  text-decoration: none;
+}
+
+section a {
+  line-height: 2;
+  font-size: 14px;
+}
