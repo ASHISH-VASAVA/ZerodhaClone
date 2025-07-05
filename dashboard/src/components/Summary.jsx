@@ -8,7 +8,7 @@ function Summary() {
 
   useEffect(() => {
     axios
-      .get("https://zerodhaclone-backend.onrender.com/auth/verify", { withCredentials: true })
+      .get("https://zerodha-clone-backend-cbao.onrender.com/auth/verify", { withCredentials: true })
       .then((res) => {
         if (res.data.status) {
           setUsername(res.data.user); //  Set the username

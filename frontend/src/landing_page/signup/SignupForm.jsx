@@ -46,7 +46,7 @@ const SignupForm = () => {
 
     try {
       const { data } = await axios.post(
-        "https://zerodhaclone-backend.onrender.com/auth/signup",
+        "https://zerodha-clone-backend-cbao.onrender.com/auth/signup",
         {
           ...inputValue,
         },
@@ -54,10 +54,11 @@ const SignupForm = () => {
       );
       const { success, message } = data;
       if (success) {
-        handleSuccess(message);
-        setTimeout(() => {
-          window.location.href = "https://zerodhaclone-dashboard.onrender.com/dashboard";
-        }, 1000);
+              handleSuccess("Registration successful! Please login.");
+                 setTimeout(() => {
+                 window.location.href = "/login";
+              }, 1500);
+
       } else {
         handleError(message || "Signup failed.");
       }

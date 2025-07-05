@@ -7,7 +7,7 @@ function Orders() {
 
   useEffect(() => {
     axios
-      .get("https://zerodhaclone-backend.onrender.com/order/allOrders")
+      .get("https://zerodha-clone-backend-cbao.onrender.com/order/allOrders")
       .then((res) => {
         setallOrders(res.data);
       })
@@ -18,7 +18,7 @@ function Orders() {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`https://zerodhaclone-backend.onrender.com/order/deleteOrders/${id}`);
+      await axios.delete(`https://zerodha-clone-backend-cbao.onrender.com/order/deleteOrders/${id}`);
       setallOrders((prev) => prev.filter((order) => order._id !== id));
     } catch (err) {
       console.error("Error deleting order:", err);

@@ -10,7 +10,7 @@ const Home = () => {
   useEffect(() => {
     const verifyToken = async () => {
       try {
-        const { data } = await axios.get("https://zerodhaclone-backend.onrender.com/auth/verify", {
+        const { data } = await axios.get("https://zerodha-clone-backend-cbao.onrender.com/auth/verify", {
           withCredentials: true, //  Send cookies
         });
 
@@ -20,10 +20,10 @@ const Home = () => {
             position: "top-right",
           });
         } else {
-          window.location.href = "https://zerodhaclone-frontend.onrender.com/login";
+          window.location.href = "https://zerodhaclone-mibe.onrender.com/login";
         }
       } catch (err) {
-        window.location.href = "https://zerodhaclone-frontend.onrender.com/login";
+        window.location.href = "https://zerodhaclone-mibe.onrender.com/login";
       }
     };
 

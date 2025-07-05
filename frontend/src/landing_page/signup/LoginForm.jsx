@@ -23,16 +23,16 @@ const Login = () => {
     console.log("Login form submitted", formdata); // debug log
     try {
       const data = await axios.post(
-        "https://zerodhaclone-backend.onrender.com/auth/login",
+        "https://zerodha-clone-backend-cbao.onrender.com/auth/login",
         { ...formdata },
         { withCredentials: true }
       );
-      const { success, message } = data.data;
-      if (success) {
-        handleSuccess(message);
-        setTimeout(() => {
-          window.location.href = "https://zerodhaclone-dashboard.onrender.com/dashboard";
-        }, 2000);
+      const { success, message } = data.data; 
+     if (success) {
+         handleSuccess("Login successful! Redirecting to dashboard...");
+           setTimeout(() => {
+               window.location.href = "/dashboard";
+             }, 1500);
       } else {
         handleError(message);
       }

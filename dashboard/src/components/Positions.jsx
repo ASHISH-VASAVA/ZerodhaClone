@@ -6,7 +6,7 @@ function Positions() {
 
   useEffect(() => {
     axios
-      .get("https://zerodhaclone-backend.onrender.com/position/allPositions")
+      .get("https://zerodha-clone-backend-cbao.onrender.com/position/allPositions")
       .then((res) => {
         setallPositions(res.data);
         console.log(res.data);

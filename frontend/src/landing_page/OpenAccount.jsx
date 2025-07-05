@@ -16,8 +16,9 @@ function OpenAccount() {
           <Button
             variant="contained"
             className="mb-5"
-            component={Link} 
-            to="/signup"
+           onClick={() =>
+              (window.location.href = "https://zerodhaclone-mibe.onrender.com/signup")
+            }
           >
             Signup free
           </Button>

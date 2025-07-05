@@ -8,6 +8,7 @@ const cookieParser = require("cookie-parser");
 const PORT = process.env.PORT || 5000;
 const uri = process.env.MONGO_URL;
 
+
 const authRoute = require("./routes/AuthRoute");
 const ordersRoute = require("./routes/OrderRoute");
 const holdingsRoute = require("./routes/HoldingRoute");
@@ -16,7 +17,7 @@ const positionsRoute = require("./routes/PositionRoute");
 const app = express();
 app.use(
   cors({
-    origin: ["https://zerodhaclone-frontend.onrender.com", "https://zerodhaclone-dashboard.onrender.com","http://localhost:3000",],
+    origin: ["https://zerodhaclone-mibe.onrender.com", "https://zerodha-dashboard-rqqj.onrender.com"],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })

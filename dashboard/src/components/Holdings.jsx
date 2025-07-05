@@ -8,7 +8,7 @@ function Holdings() {
 
   useEffect(() => {
     axios
-      .get("https://zerodhaclone-backend.onrender.com/holding/allHoldings")
+      .get("https://zerodha-clone-backend-cbao.onrender.com/holding/allHoldings")
       .then((res) => {
         setallHoldings(res.data);
         console.log(res.data);
