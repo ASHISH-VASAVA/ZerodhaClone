@@ -1,6 +1,7 @@
 import React from "react";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
+import { Link } from "react-router-dom";
 
 function Universe() {
   return (
@@ -80,13 +81,8 @@ function Universe() {
           </p>
         </div>
         <Stack spacing={2} direction="row" justifyContent="center">
-          <Button 
-              variant="contained" 
-              className="m-5"  
-              onClick={() =>
-              (window.location.href = "https://zerodha-frontend.onrender.com/signup")
-            }>
-            Sign up for free
+          <Button variant="contained" component={Link} to="/signup">
+            Signup Now
           </Button>
         </Stack>
       </div>

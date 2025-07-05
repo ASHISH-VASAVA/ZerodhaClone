@@ -5,6 +5,7 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import { TextField, Button, Paper } from "@mui/material";
 import "./SignupForm.css";
+import "react-toastify/dist/ReactToastify.css";
 
 const SignupForm = () => {
   const [inputValue, setInputValue] = useState({
@@ -12,7 +13,9 @@ const SignupForm = () => {
     password: "",
     username: "",
   });
+
   const { email, password, username } = inputValue;
+
   const handleOnChange = (e) => {
     const { name, value } = e.target;
     setInputValue({
@@ -25,6 +28,7 @@ const SignupForm = () => {
     toast.error(err, {
       position: "bottom-left",
     });
+
   const handleSuccess = (msg) =>
     toast.success(msg, {
       position: "bottom-right",
@@ -32,9 +36,17 @@ const SignupForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("Signup form submitted", inputValue); // Debug log
+
+    // Simple client-side validation
+    if (!email || !password || !username) {
+      handleError("All fields are required.");
+      return;
+    }
+
     try {
       const { data } = await axios.post(
-        "https://zerodha-backend.onrender.com/auth/signup",
+        "https://zerodhaclone-backend.onrender.com/auth/signup",
         {
           ...inputValue,
         },
@@ -44,16 +56,20 @@ const SignupForm = () => {
       if (success) {
         handleSuccess(message);
         setTimeout(() => {
-          window.location.href = "https://zerodha-dashboard.onrender.com/dashboard";
+          window.location.href = "https://zerodhaclone-dashboard.onrender.com/dashboard";
         }, 1000);
       } else {
-        handleError(message);
+        handleError(message || "Signup failed.");
       }
     } catch (error) {
-      console.log(error);
+      // Show backend or network errors to the user
+      handleError(
+        error.response?.data?.message ||
+          error.message ||
+          "Signup request failed."
+      );
     }
     setInputValue({
-      ...inputValue,
       email: "",
       password: "",
       username: "",
@@ -68,6 +84,7 @@ const SignupForm = () => {
           <div className="col-8">
             <img
               src="/media/images/signup.png"
+              alt="Signup"
               style={{ width: "600px" }}
             />
           </div>
@@ -77,7 +94,7 @@ const SignupForm = () => {
               <form onSubmit={handleSubmit}>
                 <TextField
                   type="email"
-                  label="email"
+                  label="Email"
                   name="email"
                   value={email}
                   onChange={handleOnChange}
@@ -86,7 +103,7 @@ const SignupForm = () => {
                 />
                 <TextField
                   type="text"
-                  label="username"
+                  label="Username"
                   name="username"
                   value={username}
                   onChange={handleOnChange}
@@ -95,7 +112,7 @@ const SignupForm = () => {
                 />
                 <TextField
                   type="password"
-                  label="password"
+                  label="Password"
                   name="password"
                   value={password}
                   onChange={handleOnChange}
@@ -111,7 +128,6 @@ const SignupForm = () => {
                 >
                   Signup
                 </Button>
-
                 <span style={{ marginTop: "1rem", display: "block" }}>
                   Already have an account? <Link to={"/login"}>Login</Link>
                 </span>

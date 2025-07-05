@@ -1,6 +1,7 @@
 import React from "react";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
+import { Link } from "react-router-dom";
 
 function Hero() {
   return (
@@ -20,9 +21,8 @@ function Hero() {
           <Button
             variant="contained"
             className="mb-5"
-            onClick={() =>
-              (window.location.href = "https://zerodhaclone-frontend.onrender.com/signup")
-            }
+            component={Link} 
+            to="/signup"
           >
             Signup Now
           </Button>

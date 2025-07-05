@@ -1,6 +1,7 @@
 import React from "react";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
+import { Link } from "react-router-dom";
 
 function OpenAccount() {
   return (
@@ -14,12 +15,11 @@ function OpenAccount() {
         <Stack spacing={2} direction="row" justifyContent="center">
           <Button
             variant="contained"
-            className="mt-3"
-            onClick={() =>
-              (window.location.href = "https://zerodha-frontend.onrender.com/signup")
-            }
+            className="mb-5"
+            component={Link} 
+            to="/signup"
           >
-            Sign up for free
+            Signup free
           </Button>
         </Stack>
       </div>
