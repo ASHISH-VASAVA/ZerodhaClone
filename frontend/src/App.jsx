@@ -6,7 +6,7 @@ import About from "./landing_page/about/AboutPage.jsx";
 import Product from "./landing_page/products/ProductPage.jsx";
 import Pricing from "./landing_page/pricing/PricingPage.jsx";
 import Support from "./landing_page/support/SupportPage.jsx";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Navbar from "./landing_page/Navbar.jsx";
 import Fotter from "./landing_page/Fotter.jsx";
 import PageNotFound from "./landing_page/PageNotFound.jsx";
@@ -23,7 +23,8 @@ function App() {
         <Route path="/products" element={<Product />} />
         <Route path="/pricing" element={<Pricing />} /> 
         <Route path="/support" element={<Support />} />
-        <Route path="/*" element={<PageNotFound />} />
+        <Route path="/404" element={<PageNotFound />} />
+        <Route path="/*" element={<Navigate to="/" replace />} />
       </Routes>
       <Fotter />
     </div>

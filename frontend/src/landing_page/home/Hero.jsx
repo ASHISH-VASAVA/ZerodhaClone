@@ -23,7 +23,7 @@ function Hero() {
             className="mb-5"
             onClick={() =>
               (window.location.href = "https://zerodhaclone-mibe.onrender.com/signup")
-            }
+            }                         
           >
             Signup Now
           </Button>

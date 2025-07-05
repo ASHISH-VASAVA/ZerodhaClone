@@ -6,6 +6,8 @@ import { TextField, Button, Box, Paper } from "@mui/material";
 import "react-toastify/dist/ReactToastify.css";
 import "./LoginForm.css";
 
+
+
 const Login = () => {
   const [formdata, setFormdata] = useState({ email: "", password: "" });
   const { email, password } = formdata;
@@ -31,7 +33,7 @@ const Login = () => {
      if (success) {
          handleSuccess("Login successful! Redirecting to dashboard...");
            setTimeout(() => {
-               window.location.href = "/dashboard";
+               window.location.href = "https://zerodha-dashboard-rqqj.onrender.com";
              }, 1500);
       } else {
         handleError(message);

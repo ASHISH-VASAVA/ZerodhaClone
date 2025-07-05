@@ -7,6 +7,7 @@ import { TextField, Button, Paper } from "@mui/material";
 import "./SignupForm.css";
 import "react-toastify/dist/ReactToastify.css";
 
+
 const SignupForm = () => {
   const [inputValue, setInputValue] = useState({
     email: "",
