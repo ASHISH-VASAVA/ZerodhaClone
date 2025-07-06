@@ -18,7 +18,10 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.use(cors({
-  origin: "http://localhost:3000",
+    origin: [
+    "https://zerodha-clone.netlify.app",
+    "https://zerodha-dashboard.netlify.app"
+  ],
   credentials: true
 }));
 
