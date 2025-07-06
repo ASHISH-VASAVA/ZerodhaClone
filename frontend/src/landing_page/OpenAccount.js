@@ -1,6 +1,13 @@
 import React from "react";
+import { useNavigate } from "react-router-dom"; // 👈 import this
 
 function OpenAccount() {
+  const navigate = useNavigate(); // 👈 setup navigator
+
+  const goToSignup = () => {
+    navigate("/signup");
+  };
+
   return (
     <div className="container p-5 mb-5">
       <div className="row text-center">
@@ -12,9 +19,7 @@ function OpenAccount() {
         <button
           className="p-2 btn btn-primary fs-5 mb-5"
           style={{ width: "20%", margin: "0 auto" }}
-          onClick={() => {
-            window.location.href = "https://zerodhaclonedashboard.onrender.com/signup";
-          }}        
+          onClick={goToSignup} // 👈 call the function here
         >
           Sign up Now
         </button>
