@@ -9,17 +9,18 @@ const {HoldingsModel}=require("./models/HoldingsModel");
 const {PositionsModel}=require("./models/PositionsModel");
 const {OrdersModel}=require("./models/OrdersModel");
 
+const app=express();
 const PORT=process.env.PORT || 3002;
 const uri=process.env.MONGO_URL;
 
-const app=express();
+
 
 app.use(cors());
 app.use(bodyParser.json());
 
 app.use(cors({
     origin: [
-    "https://zerodhaclonebackend-6wkg.onrender.com",
+    "https://zerodhaclonefrontend-t4pc.onrender.com",
     "https://zerodhaclonedashboard.onrender.com"
   ],
   credentials: true
