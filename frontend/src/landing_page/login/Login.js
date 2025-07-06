@@ -2,11 +2,10 @@ import React, { useState } from "react";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import "./Signup.css"; // Assuming you have a CSS file for styling      
+import "./Login.css"; // optional for custom CSS
 
-function Signup() {
+function Login() {
   const [formdata, setFormdata] = useState({
-    name: "",
     email: "",
     password: "",
   });
@@ -15,64 +14,55 @@ function Signup() {
     setFormdata({ ...formdata, [e.target.name]: e.target.value });
   };
 
-  const handleSignup = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     try {
       const res = await axios.post(
-        "https://zerodhaclonebackend-6wkg.onrender.com/api/auth/signup",
+        "https://zerodhaclonebackend-6wkg.onrender.com/api/auth/login",
         formdata,
         { withCredentials: true }
       );
-      toast.success("Signup successful! Redirecting to login...");
+      toast.success("Login successful! Redirecting...");
       setTimeout(() => {
-        window.location.href = "/login";
+        window.location.href = "https://zerodhaclonedashboard.onrender.com"; // 👈 change this to your actual dashboard URL
       }, 2000);
     } catch (err) {
-      toast.error(err.response?.data?.message || "Signup failed");
+      toast.error(err.response?.data?.message || "Login failed");
     }
   };
 
   return (
     <div className="container">
       <div className="row">
-        {/* Left image section */}
-        <div className="col-md-6 mb-4 mb-md-0 mr-5 p-5  mt-5 text-center">
+        {/* Left image */}
+        <div className="col-md-6 mb-4 p-5 text-center">
           <img
+            className="img-fluid mt-5"
             src="media/images/signup.png"
-            style={{ width: "95%" }}
-            alt="Signup Visual"
+            style={{ width: "90%" }}
+            alt="Login Visual"
           />
         </div>
 
-        {/* Right signup form with border */}
-        <div className="col-md-6 ml-5 px-5 p-5 ">
+        {/* Right form */}
+        <div className="col-md-6 px-5 p-5">
           <div
-            className="signup-box"
+            className="login-box"
             style={{
+              maxWidth: "450px", // 👈 controls width
               border: "1px solid #ddd",
-              padding: "30px",
               borderRadius: "10px",
+              padding: "30px",
               boxShadow: "0 0 10px rgba(0, 0, 0, 0.05)",
               backgroundColor: "#fff",
             }}
           >
-            <h1 className="signup-heading" style={{ fontWeight: "600" }}>
-              Signup now
-            </h1>
-            <p className="signup-subtext text-muted mb-4">
-              Create your Zerodha account to get started
-            </p>
+            <h1 className="mb-3">Login</h1>
+            <p className="text-muted mb-4">Access your Zerodha account</p>
 
-            <form onSubmit={handleSignup}>
+            <form onSubmit={handleLogin}>
               <input
-                className="form-control signup-input mb-3"
-                name="name"
-                placeholder="Username"
-                onChange={handleChange}
-                required
-              />
-              <input
-                className="form-control signup-input mb-3"
+                className="form-control mb-3"
                 name="email"
                 type="email"
                 placeholder="Email Address"
@@ -80,7 +70,7 @@ function Signup() {
                 required
               />
               <input
-                className="form-control signup-input mb-4"
+                className="form-control mb-4"
                 name="password"
                 type="password"
                 placeholder="Password"
@@ -93,23 +83,24 @@ function Signup() {
                 className="btn btn-primary fs-5 mb-3"
                 style={{ width: "50%", padding: "10px" }}
               >
-                Signup
+                Login
               </button>
             </form>
 
             <p className="mt-2">
-              Already have an account?{" "}
+              Don’t have an account?{" "}
               <a
-                href="/login"
+                href="/signup"
                 style={{
                   textDecoration: "none",
                   color: "#0d6efd",
                   fontWeight: "bold",
                 }}
               >
-                Login
+                Signup
               </a>
             </p>
+
             <ToastContainer />
           </div>
         </div>
@@ -118,4 +109,4 @@ function Signup() {
   );
 }
 
-export default Signup;
+export default Login;

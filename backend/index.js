@@ -19,8 +19,8 @@ app.use(bodyParser.json());
 
 app.use(cors({
     origin: [
-    "https://zerodha-clone.netlify.app",
-    "https://zerodha-dashboard.netlify.app"
+    "https://zerodhaclonebackend-6wkg.onrender.com",
+    "https://zerodhaclonedashboard.onrender.com"
   ],
   credentials: true
 }));

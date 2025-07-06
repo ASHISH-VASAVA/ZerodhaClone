@@ -1,14 +1,12 @@
 import React from "react";
-import Signup from "./Signup";
 import MiddleSection from "./MiddleSection";
-
-import OpenAccount from "../OpenAccount";
+import Signup from "./Signup";          
 
 function SignupPage() {
   return (
     <>
-      <Signup/>
-      <MiddleSection/>
+      <MiddleSection />
+      <Signup />
     </>
   );
 }
