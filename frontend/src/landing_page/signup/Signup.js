@@ -2,9 +2,18 @@ import React, { useState } from "react";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import "./Signup.css"; // Assuming you have a CSS file for styling      
+import "./Signup.css"; // Assuming you have a CSS file for styling  
+import { useNavigate } from "react-router-dom";    
 
 function Signup() {
+  
+   const navigate = useNavigate(); // 👈 setup navigator
+  
+    const goToSignup = () => {
+      navigate("/signup");
+    };
+
+
   const [formdata, setFormdata] = useState({
     name: "",
     email: "",
@@ -101,6 +110,7 @@ function Signup() {
               Already have an account?{" "}
               <a
                 href="/login"
+                onClick={goToSignup}
                 style={{
                   textDecoration: "none",
                   color: "#0d6efd",

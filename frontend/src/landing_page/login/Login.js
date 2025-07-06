@@ -3,8 +3,14 @@ import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./Login.css"; // optional for custom CSS
+import { useNavigate } from "react-router-dom"; 
 
 function Login() {
+   const navigate = useNavigate(); // 👈 setup navigator
+    const goToSignup = () => {
+      navigate("/signup");
+    };
+
   const [formdata, setFormdata] = useState({
     email: "",
     password: "",
@@ -82,6 +88,7 @@ function Login() {
                 type="submit"
                 className="btn btn-primary fs-5 mb-3"
                 style={{ width: "50%", padding: "10px" }}
+
               >
                 Login
               </button>
@@ -91,10 +98,12 @@ function Login() {
               Don’t have an account?{" "}
               <a
                 href="/signup"
+                onClick={goToSignup}
                 style={{
                   textDecoration: "none",
                   color: "#0d6efd",
                   fontWeight: "bold",
+                  
                 }}
               >
                 Signup
