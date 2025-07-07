@@ -3,6 +3,7 @@ import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./Login.css"; // optional for custom CSS
+import { Link } from "react-router-dom";
 
 function Login() {
   const [formdata, setFormdata] = useState({
@@ -89,8 +90,8 @@ function Login() {
 
             <p className="mt-2">
               Don’t have an account?{" "}
-              <a
-                href="/signup"
+              <Link
+                to="/signup"
                 style={{
                   textDecoration: "none",
                   color: "#0d6efd",
@@ -99,7 +100,7 @@ function Login() {
                 }}
               >
                 Signup
-              </a>
+              </Link>
             </p>
 
             <ToastContainer />
