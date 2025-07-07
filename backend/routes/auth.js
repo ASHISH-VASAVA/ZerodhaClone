@@ -7,7 +7,10 @@ const bcrypt = require("bcrypt");
 // ✅ Improved Signup Route with Error Handling
 router.post("/signup", async (req, res) => {
   try {
+    console.log("📨 Incoming Signup Request:", req.body); // ✅ Debug incoming request
+
     const { name, email, password } = req.body;
+
     if (!name || !email || !password) {
       return res.status(400).json({ message: "All fields are required" });
     }
@@ -21,8 +24,10 @@ router.post("/signup", async (req, res) => {
     const newUser = new User({ name, email, password: hashedPassword });
 
     await newUser.save();
-    res.status(201).json({ message: "User registered successfully" });
 
+    console.log("✅ User saved:", newUser); // ✅ Debug user saved
+
+    res.status(201).json({ message: "User registered successfully" });
   } catch (err) {
     console.error("❌ Signup Error:", err.message);
     res.status(500).json({ message: "Signup failed", error: err.message });
