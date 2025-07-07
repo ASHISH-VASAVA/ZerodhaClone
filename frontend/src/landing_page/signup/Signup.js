@@ -17,22 +17,24 @@ function Signup() {
     setFormdata({ ...formdata, [e.target.name]: e.target.value });
   };
 
-  const handleSignup = async (e) => {
-    e.preventDefault();
-    try {
-      const res = await axios.post(
-        "https://zerodhaclonebackend-6wkg.onrender.com/api/auth/signup",
-        formdata,
-        { withCredentials: true }
-      );
-      toast.success("Signup successful! Redirecting to login...");
-      setTimeout(() => {
-        window.location.href = "/login";
-      }, 2000);
-    } catch (err) {
-      toast.error(err.response?.data?.message || "Signup failed");
-    }
-  };
+ const handleSignup = async (e) => {
+  e.preventDefault();
+  try {
+    const res = await axios.post(
+      "https://zerodhaclonebackend-6wkg.onrender.com/api/auth/signup",
+      formdata,
+      { withCredentials: true }
+    );
+    toast.success("Signup successful! Redirecting to login...");
+    setTimeout(() => {
+      window.location.href = "/login";
+    }, 2000);
+  } catch (err) {
+    toast.error(err.response?.data?.message || "Signup failed");
+    console.error("Signup Error:", err.response?.data || err.message);
+  }
+};
+
 
   return (
     <div className="container">
