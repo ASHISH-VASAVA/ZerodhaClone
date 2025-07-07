@@ -4,24 +4,32 @@ const User = require("../models/User");
 const bcrypt = require("bcrypt");
 
 // ✅ Signup route
+// ✅ Improved Signup Route with Error Handling
 router.post("/signup", async (req, res) => {
   try {
     const { name, email, password } = req.body;
+    if (!name || !email || !password) {
+      return res.status(400).json({ message: "All fields are required" });
+    }
 
-    const userExists = await User.findOne({ email });
-    if (userExists) return res.status(400).json({ message: "User already exists" });
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ message: "User already exists" });
+    }
 
-    // ✅ Hash password here inside the route
     const hashedPassword = await bcrypt.hash(password, 10);
-    const user = new User({ name, email, password: hashedPassword });
-    await user.save();
+    const newUser = new User({ name, email, password: hashedPassword });
 
-    res.status(201).json({ message: "Signup successful" });
+    await newUser.save();
+    res.status(201).json({ message: "User registered successfully" });
+
   } catch (err) {
-    console.error("Signup error:", err);
-    res.status(500).json({ message: "Server error" });
+    console.error("❌ Signup Error:", err.message);
+    res.status(500).json({ message: "Signup failed", error: err.message });
   }
 });
+
+
 
 // ✅ Login route
 router.post("/login", async (req, res) => {
