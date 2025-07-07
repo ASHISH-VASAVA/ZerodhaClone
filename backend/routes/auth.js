@@ -6,17 +6,19 @@ const bcrypt = require("bcrypt");
 // ✅ Signup route
 // ✅ Improved Signup Route with Error Handling
 router.post("/signup", async (req, res) => {
-  try {
-    console.log("📨 Incoming Signup Request:", req.body); // ✅ Debug incoming request
+  console.log("📨 Incoming Signup Request:", req.body);  // ✅ log input
 
+  try {
     const { name, email, password } = req.body;
 
     if (!name || !email || !password) {
+      console.log("❌ Missing Fields");
       return res.status(400).json({ message: "All fields are required" });
     }
 
     const existingUser = await User.findOne({ email });
     if (existingUser) {
+      console.log("⚠️ User Already Exists");
       return res.status(400).json({ message: "User already exists" });
     }
 
@@ -24,15 +26,16 @@ router.post("/signup", async (req, res) => {
     const newUser = new User({ name, email, password: hashedPassword });
 
     await newUser.save();
-
-    console.log("✅ User saved:", newUser); // ✅ Debug user saved
+    console.log("✅ User saved:", newUser);  // ✅ confirm save
 
     res.status(201).json({ message: "User registered successfully" });
+
   } catch (err) {
-    console.error("❌ Signup Error:", err.message);
+    console.error("❌ Signup Error:", err);
     res.status(500).json({ message: "Signup failed", error: err.message });
   }
 });
+x1
 
 
 
