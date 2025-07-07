@@ -82,9 +82,6 @@ function Login() {
                 type="submit"
                 className="btn btn-primary fs-5 mb-3"
                 style={{ width: "50%", padding: "10px" }}
-                onClick={() =>
-                  (window.location.href = "https://onestock-frontend.onrender.com/login")
-                }
               >
                 Login
               </button>
@@ -94,7 +91,6 @@ function Login() {
               Don’t have an account?{" "}
               <a
                 href="/signup"
-                onClick={goToSignup}
                 style={{
                   textDecoration: "none",
                   color: "#0d6efd",
