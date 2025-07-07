@@ -15,9 +15,6 @@ const uri=process.env.MONGO_URL;
 
 
 
-app.use(cors());
-app.use(bodyParser.json());
-
 app.use(cors({
     origin: [
     "https://zerodhaclonefrontend-t4pc.onrender.com",
@@ -25,6 +22,8 @@ app.use(cors({
   ],
   credentials: true
 }));
+
+app.use(bodyParser.json());
 
 app.use("/api/auth", authRoutes);
 
