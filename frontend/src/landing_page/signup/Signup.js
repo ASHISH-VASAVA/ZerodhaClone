@@ -3,17 +3,10 @@ import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./Signup.css"; // Assuming you have a CSS file for styling  
-import { useNavigate } from "react-router-dom";    
+import { Link } from "react-router-dom";   
+
 
 function Signup() {
-  
-   const navigate = useNavigate(); // 👈 setup navigator
-  
-    const goToSignup = () => {
-      navigate("/signup");
-    };
-
-
   const [formdata, setFormdata] = useState({
     name: "",
     email: "",
@@ -108,9 +101,8 @@ function Signup() {
 
             <p className="mt-2">
               Already have an account?{" "}
-              <a
-                href="/login"
-                onClick={goToSignup}
+              <Link
+                to="/login"
                 style={{
                   textDecoration: "none",
                   color: "#0d6efd",
@@ -118,7 +110,7 @@ function Signup() {
                 }}
               >
                 Login
-              </a>
+              </Link>
             </p>
             <ToastContainer />
           </div>
