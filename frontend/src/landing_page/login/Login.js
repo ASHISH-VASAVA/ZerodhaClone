@@ -3,14 +3,8 @@ import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./Login.css"; // optional for custom CSS
-import { useNavigate } from "react-router-dom"; 
 
 function Login() {
-   const navigate = useNavigate(); // 👈 setup navigator
-    const goToSignup = () => {
-      navigate("/signup");
-    };
-
   const [formdata, setFormdata] = useState({
     email: "",
     password: "",
@@ -88,7 +82,9 @@ function Login() {
                 type="submit"
                 className="btn btn-primary fs-5 mb-3"
                 style={{ width: "50%", padding: "10px" }}
-
+                onClick={() =>
+                  (window.location.href = "https://onestock-frontend.onrender.com/login")
+                }
               >
                 Login
               </button>
