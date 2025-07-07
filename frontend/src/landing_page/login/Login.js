@@ -32,7 +32,8 @@ function Login() {
       );
       toast.success("Login successful!");
       setTimeout(() => {
-        navigate("/dashboard"); // Or wherever you want
+        window.location.href = "https://zerodhaclonedashboard.onrender.com";
+
       }, 2000);
     } catch (err) {
       console.error("❌ Login Error:", err.response?.data || err.message);
