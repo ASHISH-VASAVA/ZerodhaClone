@@ -3,8 +3,11 @@ import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./Login.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom"; 
+
 function Login() {
+  const navigate = useNavigate();
+
   const [formdata, setFormdata] = useState({
     email: "",
     password: "",
@@ -29,7 +32,7 @@ function Login() {
       );
       toast.success("Login successful!");
       setTimeout(() => {
-        window.location.href = "/dashboard"; // Or wherever you want
+        navigate("/dashboard"); // Or wherever you want
       }, 2000);
     } catch (err) {
       console.error("❌ Login Error:", err.response?.data || err.message);

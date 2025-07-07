@@ -34,7 +34,7 @@ function Signup() {
       );
       toast.success("Signup successful! Redirecting to login...");
       setTimeout(() => {
-        window.location.href = "/login";
+        navigate("/login");
       }, 2000);
     } catch (err) {
       console.error("❌ Signup Error:", err.response?.data || err.message);
