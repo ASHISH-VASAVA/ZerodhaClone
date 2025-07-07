@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import "./Login.css"; // optional for custom CSS
+import "./Login.css";
 import { Link } from "react-router-dom";
 
 function Login() {
@@ -25,7 +25,7 @@ function Login() {
       );
       toast.success("Login successful! Redirecting...");
       setTimeout(() => {
-        window.location.href = "https://zerodhaclonedashboard.onrender.com"; // 👈 change this to your actual dashboard URL
+       window.location.replace("https://zerodhaclonedashboard.onrender.com");
       }, 2000);
     } catch (err) {
       toast.error(err.response?.data?.message || "Login failed");
@@ -50,7 +50,7 @@ function Login() {
           <div
             className="login-box"
             style={{
-              maxWidth: "450px", // 👈 controls width
+              maxWidth: "450px",
               border: "1px solid #ddd",
               borderRadius: "10px",
               padding: "30px",
@@ -83,6 +83,7 @@ function Login() {
                 type="submit"
                 className="btn btn-primary fs-5 mb-3"
                 style={{ width: "50%", padding: "10px" }}
+                
               >
                 Login
               </button>
@@ -96,7 +97,6 @@ function Login() {
                   textDecoration: "none",
                   color: "#0d6efd",
                   fontWeight: "bold",
-                  
                 }}
               >
                 Signup
