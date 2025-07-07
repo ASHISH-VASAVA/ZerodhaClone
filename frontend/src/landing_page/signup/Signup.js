@@ -3,13 +3,12 @@ import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./Signup.css"; // Assuming you have a CSS file for styling  
-import { Link } from "react-router-dom";  
 import { Link, useNavigate } from "react-router-dom"; // ✅ useNavigate for redirect
 
 function Signup() {
 
    const navigate = useNavigate(); // ✅ Hook for programmatic navigation
-   
+
   const [formdata, setFormdata] = useState({
     name: "",
     email: "",
