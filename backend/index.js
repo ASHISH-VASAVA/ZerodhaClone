@@ -14,19 +14,17 @@ const PORT=process.env.PORT || 3002;
 const uri=process.env.MONGO_URL;
 
 
-
 app.use(cors({
-    origin: [
+  origin: [
     "http://localhost:3000",
     "https://zerodhaclonefrontend-t4pc.onrender.com",
     "https://zerodhaclonedashboard.onrender.com"
   ],
-    methods: ["GET", "POST", "PUT", "DELETE"],
+  methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true
 }));
 
 app.use(bodyParser.json());
-
 app.use("/api/auth", authRoutes);
 
 app.get('/addHoldings', async(req,res)=>{

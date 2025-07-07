@@ -4,7 +4,6 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./Login.css";
 import { Link } from "react-router-dom";
-
 function Login() {
   const [formdata, setFormdata] = useState({
     email: "",
@@ -19,15 +18,21 @@ function Login() {
     e.preventDefault();
     try {
       const res = await axios.post(
-        "https://zerodhaclonebackend-6wkg.onrender.com/api/auth/login",
+        "https://zerodhaclone-backend-8vq9.onrender.com/api/auth/login",
         formdata,
-        { withCredentials: true }
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
       );
-      toast.success("Login successful! Redirecting...");
+      toast.success("Login successful!");
       setTimeout(() => {
-       window.location.replace("https://zerodhaclonedashboard.onrender.com");
+        window.location.href = "/dashboard"; // Or wherever you want
       }, 2000);
     } catch (err) {
+      console.error("❌ Login Error:", err.response?.data || err.message);
       toast.error(err.response?.data?.message || "Login failed");
     }
   };

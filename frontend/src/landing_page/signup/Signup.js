@@ -5,7 +5,6 @@ import "react-toastify/dist/ReactToastify.css";
 import "./Signup.css"; // Assuming you have a CSS file for styling  
 import { Link } from "react-router-dom";   
 
-
 function Signup() {
   const [formdata, setFormdata] = useState({
     name: "",
@@ -17,23 +16,28 @@ function Signup() {
     setFormdata({ ...formdata, [e.target.name]: e.target.value });
   };
 
- const handleSignup = async (e) => {
-  e.preventDefault();
-  try {
-    const res = await axios.post(
-      "https://zerodhaclonebackend-6wkg.onrender.com/api/auth/signup",
-      formdata,
-      { withCredentials: true }
-    );
-    toast.success("Signup successful! Redirecting to login...");
-    setTimeout(() => {
-      window.location.href = "/login";
-    }, 2000);
-  } catch (err) {
-    toast.error(err.response?.data?.message || "Signup failed");
-    console.error("Signup Error:", err.response?.data || err.message);
-  }
-};
+  const handleSignup = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await axios.post(
+        "https://zerodhaclone-backend-8vq9.onrender.com/api/auth/signup",
+        formdata,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      );
+      toast.success("Signup successful! Redirecting to login...");
+      setTimeout(() => {
+        window.location.href = "/login";
+      }, 2000);
+    } catch (err) {
+      console.error("❌ Signup Error:", err.response?.data || err.message);
+      toast.error(err.response?.data?.message || "Signup failed");
+    }
+  };
 
 
   return (
