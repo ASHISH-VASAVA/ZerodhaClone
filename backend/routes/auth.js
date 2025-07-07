@@ -35,7 +35,7 @@ router.post("/signup", async (req, res) => {
     res.status(500).json({ message: "Signup failed", error: err.message });
   }
 });
-x1
+
 
 
 
