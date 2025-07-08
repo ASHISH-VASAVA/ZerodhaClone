@@ -9,7 +9,8 @@ import Orders from "./Orders";
 import Positions from "./Positions";
 import Summary from "./Summary";
 import WatchList from "./WatchList";
-import DashboardNavbar from "./DashboardNavbar"; // ✅ USE THIS
+import DashboardNavbar from "./DashboardNavbar";
+
 import { GeneralContextProvider } from "./GeneralContext";
 
 const Dashboard = () => {
