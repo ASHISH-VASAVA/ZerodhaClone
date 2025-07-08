@@ -3,7 +3,7 @@ import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./Login.css";
-import { Link, useNavigate } from "react-router-dom"; 
+import { Link, useNavigate } from "react-router-dom";
 
 function Login() {
   const navigate = useNavigate();
@@ -18,28 +18,35 @@ function Login() {
   };
 
   const handleLogin = async (e) => {
-    e.preventDefault();
-    try {
-      const res = await axios.post(
-        "https://zerodhaclone-backend-8vq9.onrender.com/api/auth/login",
-        formdata,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-          withCredentials: true,
-        }
-      );
-      toast.success("Login successful!");
-      setTimeout(() => {
-        window.location.href = "https://zerodhaclonedashboard.onrender.com";
+  e.preventDefault();
+  try {
+    const res = await axios.post(
+      "https://zerodhaclone-backend-8vq9.onrender.com/api/auth/login",
+      formdata,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
-      }, 2000);
-    } catch (err) {
-      console.error("❌ Login Error:", err.response?.data || err.message);
-      toast.error(err.response?.data?.message || "Login failed");
-    }
-  };
+    const { token, userId, name } = res.data;
+
+    // ✅ Save to localStorage
+    localStorage.setItem("token", token);
+    localStorage.setItem("userId", userId);
+    localStorage.setItem("username", name);
+
+    toast.success("Login successful!");
+
+    // ✅ Redirect after delay
+    setTimeout(() => {
+      window.location.href = "https://zerodhaclonedashboard.onrender.com";
+    }, 2000);
+  } catch (err) {
+    toast.error(err.response?.data?.message || "Login failed");
+  }
+};
 
   return (
     <div className="container">
@@ -92,7 +99,6 @@ function Login() {
                 type="submit"
                 className="btn btn-primary fs-5 mb-3"
                 style={{ width: "50%", padding: "10px" }}
-                
               >
                 Login
               </button>
