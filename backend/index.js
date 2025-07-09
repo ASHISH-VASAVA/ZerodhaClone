@@ -253,24 +253,6 @@ app.post('/newOrder', async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
-
-// ✅ ✅ ✅ Refresh Fix and Static Serve for React Apps
-// Serve frontend (optional - uses HashRouter)
-app.use("/", express.static(path.join(__dirname, "../frontend/build")));
-
-// Serve dashboard (uses BrowserRouter so must fallback)
-app.use("/dashboard", express.static(path.join(__dirname, "../dashboard/build")));
-
-// Catch-all for frontend (optional)
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "../frontend/build", "index.html"));
-});
-
-// Catch-all for dashboard to fix refresh issue
-app.get("/dashboard/*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../dashboard/build", "index.html"));
-});
-
 app.listen(PORT, () =>{
     console.log("App started!");
     mongoose.connect(uri);
