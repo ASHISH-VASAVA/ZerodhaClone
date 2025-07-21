@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { HashRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouterRouter, Routes, Route, BrowserRouter } from "react-router-dom";
 import "./index.css";
 import ScrollToTop from "./components/ScrollTop";
 
@@ -19,7 +19,7 @@ import Footer from "./landing_page/Footer";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <HashRouter>
+  <BrowserRouter>
     <Navbar />
     <ScrollToTop /> 
     <Routes>
@@ -33,5 +33,5 @@ root.render(
       <Route path="*" element={<NotFound />} />
     </Routes>
     <Footer />
-  </HashRouter>
+  </BrowserRouter>
 );
