@@ -1,7 +1,8 @@
-
-import { Routes, Route } from "react-router-dom";
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { HashRouter, Routes, Route } from "react-router-dom";
 import "./index.css";
-
+import ScrollToTop from "./components/ScrollTop";
 
 import HomePage from "./landing_page/home/HomePage";
 import SignupPage from "./landing_page/signup/SignupPage";
@@ -16,9 +17,9 @@ import Navbar from "./landing_page/Navbar";
 import Footer from "./landing_page/Footer";
 
 
-function  index(){
-  return(
-    <div>
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(
+  <HashRouter>
     <Navbar />
     <ScrollToTop /> 
     <Routes>
@@ -32,9 +33,5 @@ function  index(){
       <Route path="*" element={<NotFound />} />
     </Routes>
     <Footer />
-    </div>
-    );
-    }
-
-
-export default index;
+  </HashRouter>
+);
