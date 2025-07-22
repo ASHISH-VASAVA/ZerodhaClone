@@ -4,7 +4,6 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 require("dotenv").config();
 const authRoutes = require("./routes/auth");
-const Order = require("./models/Order");
 
 const { HoldingsModel } = require("./models/HoldingsModel");
 const { PositionsModel } = require("./models/PositionsModel");
@@ -113,25 +112,15 @@ app.get("/allPositions", async (req, res) => {
   res.json(allPositions);
 });
 
-
-
 app.post("/newOrder", async (req, res) => {
   try {
     const { name, qty, price, mode } = req.body;
 
     console.log(req.body);
 
-    // ✅ 1. Save to Order History
-    const newOrder = new Order({
-      userId: name,             // assuming user name is acting as user ID
-      stockName: name,          // if name is stock name, else separate that
-      quantity: Number(qty),
-      price: Number(price),
-      mode: mode,
-    });
+    const newOrder = new OrdersModel({ name, qty, price, mode });
     await newOrder.save();
 
-    // ✅ 2. Update Holdings
     const existingHolding = await HoldingsModel.findOne({ name });
 
     if (mode === "BUY") {
@@ -169,13 +158,12 @@ app.post("/newOrder", async (req, res) => {
       }
     }
 
-    res.status(200).json({ message: "Order saved and Holdings updated!" });
+    res.send("Order saved and Holdings updated!");
   } catch (err) {
     console.error("❌ Error saving order or updating holdings:", err);
     res.status(500).send("Internal Server Error");
   }
 });
-
 
 app.listen(PORT, () => {
   console.log("App started!");
