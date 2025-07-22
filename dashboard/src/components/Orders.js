@@ -1,11 +1,20 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import "./Orders.css"; // Optional, for styling
+import "./Orders.css";
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
-  const userId = "demo"; // Replace with actual logged-in user id if dynamic
+  const userId = "demo"; // Replace with actual logged-in user ID
+
+  const handleDeleteOrder = async (orderId) => {
+    try {
+      await axios.delete(`https://zerodha-backend-4r4d.onrender.com/orders/${orderId}`);
+      setOrders((prevOrders) => prevOrders.filter((order) => order._id !== orderId));
+    } catch (error) {
+      console.error("Failed to delete order:", error);
+    }
+  };
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -40,29 +49,21 @@ const Orders = () => {
       ) : (
         <div className="order-list">
           <h2>Your Orders</h2>
-          {orders.map((order, idx) => (
-            <div key={idx} className="order-card">
-              <p>
-                <strong>Stock:</strong> {order.name}
-              </p>
-              <p>
-                <strong>Mode:</strong> {order.mode}
-              </p>
-              <p>
-                <strong>Quantity:</strong> {order.qty}
-              </p>
-              <p>
-                <strong>Price:</strong> ₹{order.price}
-              </p>
-              <p>
-                <strong>Total:</strong> ₹{(order.qty * order.price).toFixed(2)}
-              </p>
-              <p>
-                Date:{" "}
-                {order.date && !isNaN(new Date(order.date))
-                  ? new Date(order.date).toLocaleString()
-                  : "Invalid Date"}
-              </p>
+          {orders.map((order) => (
+            <div key={order._id} className="order-card">
+              <p><strong>Stock:</strong> {order.stockName}</p>
+              <p><strong>Mode:</strong> {order.mode}</p>
+              <p><strong>Quantity:</strong> {order.qty}</p>
+              <p><strong>Price:</strong> ₹{order.price}</p>
+              <p><strong>Total:</strong> ₹{(order.qty * order.price).toFixed(2)}</p>
+              <p><strong>Date:</strong> {new Date(order.date).toLocaleString()}</p>
+
+              <button
+                onClick={() => handleDeleteOrder(order._id)}
+                className="delete-btn"
+              >
+                Delete Order
+              </button>
             </div>
           ))}
         </div>
