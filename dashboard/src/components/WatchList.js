@@ -148,14 +148,15 @@ const WatchListActions = ({ uid }) => {
         >
           <button className="buy">Buy</button>
         </Tooltip>
-        <Tooltip
-          title="Sell (S)"
-          placement="top"
-          arrow
-          TransitionComponent={Grow}
-        >
-          <button className="sell">Sell</button>
-        </Tooltip>
+         <Tooltip
+            title="Sell (S)"
+            placement="top"
+            arrow
+            TransitionComponent={Grow}
+             onClick={() => generalContext.openSellWindow(uid)}
+            >
+             <button className="sell">Sell</button>
+          </Tooltip>
         <Tooltip
           title="Analytics (A)"
           placement="top"
