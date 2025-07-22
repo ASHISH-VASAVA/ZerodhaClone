@@ -25,4 +25,5 @@ const orderSchema = new mongoose.Schema({
   }
 });
 
-module.exports = mongoose.model('Order', orderSchema);
+// ✅ Use existing model if already compiled
+module.exports = mongoose.models.Order || mongoose.model('Order', orderSchema);

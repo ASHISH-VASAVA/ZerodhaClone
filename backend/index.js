@@ -4,7 +4,8 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 require("dotenv").config();
 const authRoutes = require("./routes/auth");
-const orderRoutes = require('./routes/orderRoutes');
+const Order = require('./models/Order');
+
 
 const { HoldingsModel } = require("./models/HoldingsModel");
 const { PositionsModel } = require("./models/PositionsModel");
