@@ -5,6 +5,7 @@ const OrdersSchema=new Schema({
     qty: Number,
     price: Number,
     mode:String,
+    userId: String,
     timestamp: {
     type: Date,
     default: Date.now, // ✅ required to sort and filter by time
