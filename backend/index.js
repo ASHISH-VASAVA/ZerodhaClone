@@ -129,7 +129,14 @@ app.post("/newOrder", async (req, res) => {
 
     console.log(req.body);
 
-    const newOrder = new OrdersModel({ name, qty, price, mode });
+    const newOrder = new OrdersModel({
+      name,
+      qty,
+      price,
+      mode,
+      userId: userId || "demoUser",
+      timestamp: timestamp || new Date()
+    });
     await newOrder.save();
 
     const existingHolding = await HoldingsModel.findOne({ name });
