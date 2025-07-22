@@ -246,33 +246,35 @@ app.post('/newOrder', async (req, res) => {
 
     // ✅ SELL Logic
     if (mode === "SELL") {
-      const existingHolding = await HoldingsModel.findOne({ name });
+      const existing = await HoldingsModel.findOne({ name });
 
-      if (!existingHolding) {
-        return res.status(400).json({ error: "Stock not found in holdings" });
+      if (!existing) {
+        return res.status(400).json({ error: "Stock not found in holdings." });
       }
 
-      if (existingHolding.qty < Number(qty)) {
-        return res.status(400).json({ error: "Not enough quantity to sell" });
+      if (existing.qty < quantity) {
+        return res.status(400).json({ error: "Not enough quantity to sell." });
       }
 
-      existingHolding.qty -= Number(qty);
-      existingHolding.price = Number(price); // update to latest market price
+      // Subtract qty
+      existing.qty -= quantity;
+      existing.price = stockPrice;
 
-      if (existingHolding.qty === 0) {
+      if (existing.qty === 0) {
         await HoldingsModel.deleteOne({ name });
       } else {
-        await existingHolding.save();
+        await existing.save();
       }
     }
 
-    res.send("Order saved and Holdings updated!");
+    res.status(200).json({ message: "Order processed and holdings updated." });
 
   } catch (err) {
-    console.error("❌ Error saving order or updating holdings:", err);
-    res.status(500).send("Internal Server Error");
+    console.error("❌ Error processing order:", err);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
+
 
 app.listen(PORT, () =>{
     console.log("App started!");
