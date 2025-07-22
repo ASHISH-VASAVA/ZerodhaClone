@@ -18,6 +18,7 @@ const SellActionWindow = ({ uid }) => {
         qty: stockQuantity,
         price: stockPrice,
         mode: "SELL",
+        timestamp: new Date().toISOString()
       });
 
       alert("✅ Sell order successful!");
