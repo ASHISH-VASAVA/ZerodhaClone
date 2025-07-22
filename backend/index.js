@@ -112,16 +112,14 @@ app.get("/allPositions", async (req, res) => {
   res.json(allPositions);
 });
 
-app.get("/getOrders", async (req, res) => {
+app.get("/orders", async (req, res) => {
   try {
-    const twentyFourHoursAgo = new Date(Date.now() - 24 * 60 * 60 * 1000); // 24 hours ago
-    const recentOrders = await OrdersModel.find({ createdAt: { $gte: twentyFourHoursAgo } });
-    res.json(recentOrders);
-  } catch (error) {
-    res.status(500).json({ message: "Error fetching orders" });
+    const orders = await OrdersModel.find().sort({ _id: -1 }); // latest first
+    res.json(orders);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 });
-
 
 app.post("/newOrder", async (req, res) => {
   try {
@@ -129,11 +127,9 @@ app.post("/newOrder", async (req, res) => {
 
     console.log(req.body);
 
-    // ✅ 1. Save to OrdersModel (this was missing)
     const newOrder = new OrdersModel({ name, qty, price, mode });
     await newOrder.save();
 
-    // ✅ 2. Update Holdings
     const existingHolding = await HoldingsModel.findOne({ name });
 
     if (mode === "BUY") {
@@ -171,13 +167,12 @@ app.post("/newOrder", async (req, res) => {
       }
     }
 
-    res.send("✅ Order saved and Holdings updated!");
+    res.send("Order saved and Holdings updated!");
   } catch (err) {
     console.error("❌ Error saving order or updating holdings:", err);
     res.status(500).send("Internal Server Error");
   }
 });
-
 
 app.listen(PORT, () => {
   console.log("App started!");
