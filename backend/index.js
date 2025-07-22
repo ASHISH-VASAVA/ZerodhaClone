@@ -112,6 +112,15 @@ app.get("/allPositions", async (req, res) => {
   res.json(allPositions);
 });
 
+app.get("/orders", async (req, res) => {
+  try {
+    const orders = await OrdersModel.find().sort({ _id: -1 }); // latest first
+    res.json(orders);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 app.post("/newOrder", async (req, res) => {
   try {
     const { name, qty, price, mode } = req.body;

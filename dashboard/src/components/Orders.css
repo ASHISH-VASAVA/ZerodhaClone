@@ -1,17 +1,27 @@
-.orders {
-  padding: 20px;
+.order-card {
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  padding: 16px;
+  margin: 12px 0;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  background-color: #fff;
 }
-.order-list ul {
-  list-style: none;
-  padding: 0;
+
+.buy {
+  color: green;
+  font-weight: bold;
 }
-.order-item {
-  background: #f9f9f9;
-  margin-bottom: 12px;
-  padding: 12px;
-  border-radius: 8px;
+
+.sell {
+  color: red;
+  font-weight: bold;
 }
-.no-orders {
-  text-align: center;
-  margin-top: 50px;
+
+.btn {
+  background-color: #0077ff;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
 }
