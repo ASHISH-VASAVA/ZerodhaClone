@@ -112,7 +112,7 @@ app.get("/allPositions", async (req, res) => {
   res.json(allPositions);
 });
 
-app.get("/get-orders", async (req, res) => {
+app.get("/getOrders", async (req, res) => {
   try {
     const twentyFourHoursAgo = new Date(Date.now() - 24 * 60 * 60 * 1000); // 24 hours ago
     const recentOrders = await OrdersModel.find({ createdAt: { $gte: twentyFourHoursAgo } });
@@ -130,7 +130,13 @@ app.post("/newOrder", async (req, res) => {
     console.log(req.body);
 
     // ✅ 1. Save to OrdersModel (this was missing)
-    const newOrder = new OrdersModel({ name, qty, price, mode });
+    const order = new Order({
+    name,
+    price,
+    qty,
+    type,
+    date: new Date(),
+  });
     await newOrder.save();
 
     // ✅ 2. Update Holdings

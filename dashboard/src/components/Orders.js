@@ -42,8 +42,12 @@ const Orders = () => {
   };
 
   useEffect(() => {
-    fetchOrders();
-  }, []);
+  const fetchOrders = async () => {
+    const res = await axios.get("https://zerodha-backend-4r4d.onrender.com/getOrders");
+    setOrders(res.data); // this should have name, price, qty
+  };
+  fetchOrders();
+}, []);
 
   if (loading) {
     return <p>Loading orders...</p>;

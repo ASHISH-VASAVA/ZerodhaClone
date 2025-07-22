@@ -14,11 +14,10 @@ const SellActionWindow = ({ uid }) => {
  const handleSellClick = async () => {
   try {
     await axios.post("https://zerodha-backend-4r4d.onrender.com/newOrder", {
-      name: uid,
-      price: stockPrice,
-      qty: stockQuantity,
-      mode: "SELL",
-      timestamp: new Date(),
+       name: selectedStock?.name || stockName, // ✅ stock name
+      price: selectedStock?.price || stockPrice, // ✅ stock price
+      qty: quantity, // ✅ qty from input
+      type: "SELL", // or "SELL"
     });
 
     alert("✅ Sell order successful!");
