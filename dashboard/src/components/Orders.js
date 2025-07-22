@@ -7,14 +7,15 @@ const Orders = () => {
   const [loading, setLoading] = useState(true);
   const userId = "demo"; // Replace with actual logged-in user ID
 
-  const handleDeleteOrder = async (orderId) => {
-    try {
-      await axios.delete(`https://zerodha-backend-4r4d.onrender.com/orders/${orderId}`);
-      setOrders((prevOrders) => prevOrders.filter((order) => order._id !== orderId));
-    } catch (error) {
-      console.error("Failed to delete order:", error);
-    }
-  };
+const deleteOrder = async (orderId) => {
+  try {
+    const res = await axios.delete(`https://your-backend-url/api/orders/${orderId}`);
+    console.log('Deleted:', res.data);
+    // update UI after deletion
+  } catch (err) {
+    console.error('Delete failed', err);
+  }
+};
 
   useEffect(() => {
     const fetchOrders = async () => {
