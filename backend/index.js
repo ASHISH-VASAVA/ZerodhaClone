@@ -206,58 +206,57 @@ app.get('/allPositions',async(req,res)=> {
    res.json(allPositions);
 });
 
-app.post('/newOrder', async (req, res) => {
+
+// ✅ Buy/Sell Order
+app.post("/newOrder", async (req, res) => {
   try {
     const { name, qty, price, mode } = req.body;
 
-    console.log(req.body); // Debug log
+    if (!name || !qty || !price || !mode) {
+      return res.status(400).json({ error: "Missing order fields" });
+    }
 
-    // ✅ Step 1: Save the order in OrdersModel
-    const newOrder = new OrdersModel({ name, qty, price, mode });
+    const quantity = Number(qty);
+    const priceNum = Number(price);
+
+    // 1️⃣ Save order to OrdersModel
+    const newOrder = new OrdersModel({ name, qty: quantity, price: priceNum, mode });
     await newOrder.save();
 
-    // ✅ BUY Logic
-    if (mode === "BUY") {
-      const existingHolding = await HoldingsModel.findOne({ name });
+    const existingHolding = await HoldingsModel.findOne({ name });
 
+    // 2️⃣ BUY
+    if (mode === "BUY") {
       if (existingHolding) {
-        const totalQty = existingHolding.qty + Number(qty);
-        const totalCost =
-          existingHolding.avg * existingHolding.qty + Number(price) * Number(qty);
+        const totalQty = existingHolding.qty + quantity;
+        const totalCost = existingHolding.avg * existingHolding.qty + priceNum * quantity;
         const newAvg = totalCost / totalQty;
 
         existingHolding.qty = totalQty;
         existingHolding.avg = newAvg;
-        existingHolding.price = Number(price); // update price
+        existingHolding.price = priceNum;
         await existingHolding.save();
       } else {
         const newHolding = new HoldingsModel({
           name,
-          qty: Number(qty),
-          avg: Number(price),
-          price: Number(price),
+          qty: quantity,
+          avg: priceNum,
+          price: priceNum,
           net: "+0%",
           day: "+0%",
         });
-
         await newHolding.save();
       }
     }
 
-    // ✅ SELL Logic
+    // 3️⃣ SELL
     if (mode === "SELL") {
-      const existingHolding = await HoldingsModel.findOne({ name });
-
-      if (!existingHolding) {
-        return res.status(400).json({ error: "Stock not found in holdings" });
-      }
-
-      if (existingHolding.qty < Number(qty)) {
+      if (!existingHolding || existingHolding.qty < quantity) {
         return res.status(400).json({ error: "Not enough quantity to sell" });
       }
 
-      existingHolding.qty -= Number(qty);
-      existingHolding.price = Number(price); // update to latest market price
+      existingHolding.qty -= quantity;
+      existingHolding.price = priceNum;
 
       if (existingHolding.qty === 0) {
         await HoldingsModel.deleteOne({ name });
@@ -266,8 +265,7 @@ app.post('/newOrder', async (req, res) => {
       }
     }
 
-    res.send("Order saved and Holdings updated!");
-
+    res.send("✅ Order saved and holdings updated");
   } catch (err) {
     console.error("❌ Error saving order or updating holdings:", err);
     res.status(500).send("Internal Server Error");
