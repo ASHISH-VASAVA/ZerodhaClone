@@ -8,10 +8,19 @@ const Menu = () => {
   const [username, setUsername] = useState("");
 
   useEffect(() => {
-    // 🔄 Load from localStorage
-    const storedUser = localStorage.getItem("username");
-    if (storedUser) {
-      setUsername(storedUser);
+    // 🔁 First check if username is in URL
+    const params = new URLSearchParams(window.location.search);
+    const nameFromURL = params.get("username");
+
+    if (nameFromURL) {
+      localStorage.setItem("username", nameFromURL);
+      setUsername(nameFromURL);
+    } else {
+      // 🔁 Else fallback to localStorage
+      const storedUser = localStorage.getItem("username");
+      if (storedUser) {
+        setUsername(storedUser);
+      }
     }
   }, []);
 
