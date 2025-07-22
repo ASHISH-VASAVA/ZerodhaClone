@@ -1,0 +1,53 @@
+.profile {
+  display: flex;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+  gap: 8px;
+}
+
+.avatar {
+  background: #f3d1f4;
+  color: #7c3aed;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.profile-info {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  position: relative;
+}
+
+.username {
+  font-size: 14px;
+  margin: 0;
+  color: #333;
+  font-weight: 500;
+}
+
+.profile-dropdown {
+  position: absolute;
+  top: 120%;
+  right: 0;
+  background: white;
+  border: 1px solid #ccc;
+  padding: 8px 16px;
+  z-index: 999;
+  border-radius: 4px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.logout-btn {
+  color: red;
+  cursor: pointer;
+  font-weight: bold;
+  margin: 0;
+}
