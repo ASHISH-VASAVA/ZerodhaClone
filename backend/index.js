@@ -212,16 +212,15 @@ app.post('/newOrder', async (req, res) => {
 
     console.log(req.body); // Debug log
 
-    // ✅ Step 1: Save to Orders
+    // ✅ Step 1: Save the order in OrdersModel
     const newOrder = new OrdersModel({ name, qty, price, mode });
     await newOrder.save();
 
-    // ✅ Step 2: Insert/Update in Holdings if mode is BUY
+    // ✅ BUY Logic
     if (mode === "BUY") {
       const existingHolding = await HoldingsModel.findOne({ name });
 
       if (existingHolding) {
-        // ✅ Update existing holding qty and avg price
         const totalQty = existingHolding.qty + Number(qty);
         const totalCost =
           existingHolding.avg * existingHolding.qty + Number(price) * Number(qty);
@@ -229,10 +228,9 @@ app.post('/newOrder', async (req, res) => {
 
         existingHolding.qty = totalQty;
         existingHolding.avg = newAvg;
-        existingHolding.price = Number(price); // market price
+        existingHolding.price = Number(price); // update price
         await existingHolding.save();
       } else {
-        // ✅ Add new holding if not exists
         const newHolding = new HoldingsModel({
           name,
           qty: Number(qty),
@@ -246,6 +244,28 @@ app.post('/newOrder', async (req, res) => {
       }
     }
 
+    // ✅ SELL Logic
+    if (mode === "SELL") {
+      const existingHolding = await HoldingsModel.findOne({ name });
+
+      if (!existingHolding) {
+        return res.status(400).json({ error: "Stock not found in holdings" });
+      }
+
+      if (existingHolding.qty < Number(qty)) {
+        return res.status(400).json({ error: "Not enough quantity to sell" });
+      }
+
+      existingHolding.qty -= Number(qty);
+      existingHolding.price = Number(price); // update to latest market price
+
+      if (existingHolding.qty === 0) {
+        await HoldingsModel.deleteOne({ name });
+      } else {
+        await existingHolding.save();
+      }
+    }
+
     res.send("Order saved and Holdings updated!");
 
   } catch (err) {
@@ -253,6 +273,7 @@ app.post('/newOrder', async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
+
 app.listen(PORT, () =>{
     console.log("App started!");
     mongoose.connect(uri);
