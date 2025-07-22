@@ -1,49 +1,55 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import axios from "axios";
-import "./Orders.css"; // Optional: for styling if needed
+import "./Orders.css"; // Optional, for styling
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
-
-  const userId = "ashish123"; // 🔁 Replace with dynamic user if available
+  const userId = "demo"; // Replace with actual logged-in user id if dynamic
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:3002/orders?userId=${userId}`)
-      .then((res) => {
-        setOrders(res.data);
-        setLoading(false);
-      })
-      .catch((err) => {
+    const fetchOrders = async () => {
+      try {
+        const response = await axios.get(
+          `https://zerodha-backend-4r4d.onrender.com/orders?userId=${userId}`
+        );
+        setOrders(response.data);
+      } catch (err) {
         console.error("Failed to fetch orders:", err);
+      } finally {
         setLoading(false);
-      });
+      }
+    };
+
+    fetchOrders();
   }, []);
 
-  if (loading) return <p>Loading orders...</p>;
+  if (loading) {
+    return <p>Loading orders...</p>;
+  }
 
   return (
     <div className="orders">
       {orders.length === 0 ? (
         <div className="no-orders">
           <p>You haven't placed any orders today</p>
-          <Link to={"/"} className="btn">
+          <button className="btn" onClick={() => window.location.href = "/"}>
             Get started
-          </Link>
+          </button>
         </div>
       ) : (
         <div className="order-list">
           <h2>Your Orders</h2>
-          <ul>
-            {orders.map((order, index) => (
-              <li key={index} className="order-item">
-                <strong>{order.stockName}</strong> - {order.quantity} shares @ ₹{order.price} ({order.type.toUpperCase()})<br />
-                <small>{new Date(order.timestamp).toLocaleString()}</small>
-              </li>
-            ))}
-          </ul>
+          {orders.map((order, idx) => (
+            <div key={idx} className="order-card">
+              <p><strong>Stock:</strong> {order.name}</p>
+              <p><strong>Mode:</strong> {order.mode}</p>
+              <p><strong>Quantity:</strong> {order.qty}</p>
+              <p><strong>Price:</strong> ₹{order.price}</p>
+              <p><strong>Total:</strong> ₹{(order.qty * order.price).toFixed(2)}</p>
+              <p><strong>Date:</strong> {new Date(order.timestamp).toLocaleString()}</p>
+            </div>
+          ))}
         </div>
       )}
     </div>
