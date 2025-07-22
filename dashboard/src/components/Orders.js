@@ -33,7 +33,7 @@ const Orders = () => {
       {orders.length === 0 ? (
         <div className="no-orders">
           <p>You haven't placed any orders today</p>
-          <button className="btn" onClick={() => window.location.href = "/"}>
+          <button className="btn" onClick={() => (window.location.href = "/")}>
             Get started
           </button>
         </div>
@@ -42,12 +42,27 @@ const Orders = () => {
           <h2>Your Orders</h2>
           {orders.map((order, idx) => (
             <div key={idx} className="order-card">
-              <p><strong>Stock:</strong> {order.name}</p>
-              <p><strong>Mode:</strong> {order.mode}</p>
-              <p><strong>Quantity:</strong> {order.qty}</p>
-              <p><strong>Price:</strong> ₹{order.price}</p>
-              <p><strong>Total:</strong> ₹{(order.qty * order.price).toFixed(2)}</p>
-              <p><strong>Date:</strong> {new Date(order.timestamp).toLocaleString()}</p>
+              <p>
+                <strong>Stock:</strong> {order.name}
+              </p>
+              <p>
+                <strong>Mode:</strong> {order.mode}
+              </p>
+              <p>
+                <strong>Quantity:</strong> {order.qty}
+              </p>
+              <p>
+                <strong>Price:</strong> ₹{order.price}
+              </p>
+              <p>
+                <strong>Total:</strong> ₹{(order.qty * order.price).toFixed(2)}
+              </p>
+              <p>
+                Date:{" "}
+                {order.date && !isNaN(new Date(order.date))
+                  ? new Date(order.date).toLocaleString()
+                  : "Invalid Date"}
+              </p>
             </div>
           ))}
         </div>
