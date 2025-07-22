@@ -196,9 +196,12 @@ app.get('/addPositions', async(req,res)=>{
   res.send("Done!");
 });
 
-app.get('/allHoldings',async(req,res)=> {
-   let allHoldings=await HoldingsModel.find({});
-   res.json(allHoldings);
+app.get('/allHoldings', async (req, res) => {
+  const { userId } = req.query;
+  if (!userId) return res.status(400).json({ error: "Missing userId" });
+
+  const allHoldings = await HoldingsModel.find({ userId });
+  res.json(allHoldings);
 });
 
 app.get('/allPositions',async(req,res)=> {
@@ -210,22 +213,19 @@ app.get('/allPositions',async(req,res)=> {
 // ✅ Buy/Sell Order
 app.post("/newOrder", async (req, res) => {
   try {
-    const { name, qty, price, mode } = req.body;
+    const { userId, name, qty, price, mode } = req.body;
 
-    if (!name || !qty || !price || !mode) {
-      return res.status(400).json({ error: "Missing order fields" });
+    if (!userId || !name || !qty || !price || !mode) {
+      return res.status(400).json({ error: "Missing fields" });
     }
 
     const quantity = Number(qty);
     const priceNum = Number(price);
 
-    // 1️⃣ Save order to OrdersModel
-    const newOrder = new OrdersModel({ name, qty: quantity, price: priceNum, mode });
-    await newOrder.save();
+    await new OrdersModel({ name, qty: quantity, price: priceNum, mode }).save();
 
-    const existingHolding = await HoldingsModel.findOne({ name });
+    const existingHolding = await HoldingsModel.findOne({ userId, name });
 
-    // 2️⃣ BUY
     if (mode === "BUY") {
       if (existingHolding) {
         const totalQty = existingHolding.qty + quantity;
@@ -238,6 +238,7 @@ app.post("/newOrder", async (req, res) => {
         await existingHolding.save();
       } else {
         const newHolding = new HoldingsModel({
+          userId,
           name,
           qty: quantity,
           avg: priceNum,
@@ -249,7 +250,6 @@ app.post("/newOrder", async (req, res) => {
       }
     }
 
-    // 3️⃣ SELL
     if (mode === "SELL") {
       if (!existingHolding || existingHolding.qty < quantity) {
         return res.status(400).json({ error: "Not enough quantity to sell" });
@@ -259,7 +259,7 @@ app.post("/newOrder", async (req, res) => {
       existingHolding.price = priceNum;
 
       if (existingHolding.qty === 0) {
-        await HoldingsModel.deleteOne({ name });
+        await HoldingsModel.deleteOne({ _id: existingHolding._id });
       } else {
         await existingHolding.save();
       }
@@ -267,10 +267,11 @@ app.post("/newOrder", async (req, res) => {
 
     res.send("✅ Order saved and holdings updated");
   } catch (err) {
-    console.error("❌ Error saving order or updating holdings:", err);
+    console.error("❌ Error:", err);
     res.status(500).send("Internal Server Error");
   }
 });
+
 
 app.listen(PORT, () =>{
     console.log("App started!");
