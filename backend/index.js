@@ -129,16 +129,11 @@ app.post("/newOrder", async (req, res) => {
 
     console.log(req.body);
 
-    const newOrder = new OrdersModel({
-      name,
-      qty,
-      price,
-      mode,
-      userId: userId || "demoUser",
-      timestamp: timestamp || new Date()
-    });
+    // ✅ 1. Save to OrdersModel (this was missing)
+    const newOrder = new OrdersModel({ name, qty, price, mode });
     await newOrder.save();
 
+    // ✅ 2. Update Holdings
     const existingHolding = await HoldingsModel.findOne({ name });
 
     if (mode === "BUY") {
@@ -176,12 +171,13 @@ app.post("/newOrder", async (req, res) => {
       }
     }
 
-    res.send("Order saved and Holdings updated!");
+    res.send("✅ Order saved and Holdings updated!");
   } catch (err) {
     console.error("❌ Error saving order or updating holdings:", err);
     res.status(500).send("Internal Server Error");
   }
 });
+
 
 app.listen(PORT, () => {
   console.log("App started!");
