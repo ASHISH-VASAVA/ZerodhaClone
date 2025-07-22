@@ -113,18 +113,6 @@ app.get("/allPositions", async (req, res) => {
   res.json(allPositions);
 });
 
-// ✅ Get all orders for a specific user
-app.get("/orders", async (req, res) => {
-  const { userId } = req.query;
-
-  try {
-    const orders = await Order.find({ userId }).sort({ timestamp: -1 });
-    res.json(orders);
-  } catch (err) {
-    console.error("❌ Error fetching orders:", err);
-    res.status(500).json({ error: err.message });
-  }
-});
 
 
 app.post("/newOrder", async (req, res) => {

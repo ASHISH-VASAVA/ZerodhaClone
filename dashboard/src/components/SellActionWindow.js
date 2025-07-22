@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 
 import GeneralContext from "./GeneralContext";
-import "./BuyActionWindow.css"; // Same styling
+import "./BuyActionWindow.css"; // Reuse same styling unless you have different styles
 
 const SellActionWindow = ({ uid }) => {
   const [stockQuantity, setStockQuantity] = useState(1);
@@ -11,23 +11,15 @@ const SellActionWindow = ({ uid }) => {
 
   const { closeSellWindow } = useContext(GeneralContext);
 
-  const handleSellClick = async () => {
-    try {
-      await axios.post("https://zerodha-backend-4r4d.onrender.com/newOrder", {
-        name: uid,
-        qty: stockQuantity,
-        price: stockPrice,
-        mode: "SELL",
-      });
+  const handleSellClick = () => {
+    axios.post("https://zerodha-backend-4r4d.onrender.com/newOrder", {
+      name: uid,
+      qty: stockQuantity,
+      price: stockPrice,
+      mode: "SELL",
+    });
 
-      alert("✅ Sell order successful!");
-      window.location.reload(); // Refresh page to update holdings
-    } catch (error) {
-      console.error("Sell error:", error);
-      alert("❌ Sell order failed!");
-    } finally {
-      closeSellWindow();
-    }
+    closeSellWindow();
   };
 
   const handleCancelClick = () => {
