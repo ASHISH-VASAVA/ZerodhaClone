@@ -12,24 +12,24 @@ const BuyActionWindow = ({ uid }) => {
   const { closeBuyWindow } = useContext(GeneralContext);
 
   const handleBuyClick = async () => {
-    try {
-      await axios.post("https://zerodha-backend-4r4d.onrender.com/newOrder", {
-        name: selectedStock.name,
-        price: selectedStock.price,
-        qty: quantity,
-        mode: "BUY",
-        timestamp: new Date(),
-      });
+  try {
+    await axios.post("https://zerodha-backend-4r4d.onrender.com/newOrder", {
+      name: uid,
+      price: stockPrice,
+      qty: stockQuantity,
+      mode: "BUY",
+      timestamp: new Date(),
+    });
 
-      alert("✅ Buy order successful!");
-      window.location.reload(); // Refresh page to update holdings
-    } catch (error) {
-      console.error("Buy error:", error);
-      alert("❌ Buy order failed!");
-    } finally {
-      closeBuyWindow();
-    }
-  };
+    alert("✅ Buy order successful!");
+    window.location.reload(); // Refresh page to update holdings
+  } catch (error) {
+    console.error("Buy error:", error);
+    alert("❌ Buy order failed!");
+  } finally {
+    closeBuyWindow();
+  }
+};
 
   const handleCancelClick = () => {
     closeBuyWindow();
