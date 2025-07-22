@@ -8,6 +8,7 @@ const Menu = () => {
   const [username, setUsername] = useState("");
 
   useEffect(() => {
+    // 🔄 Load from localStorage
     const storedUser = localStorage.getItem("username");
     if (storedUser) {
       setUsername(storedUser);
@@ -25,7 +26,6 @@ const Menu = () => {
 
   const isActive = (path) => location.pathname === path;
 
-  // Optional: generate initials from name
   const getInitials = (name) => {
     return name
       .split(" ")
