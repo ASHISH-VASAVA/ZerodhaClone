@@ -21,7 +21,7 @@ function Login() {
     e.preventDefault();
     try {
       const res = await axios.post(
-        "https://zerodhaclone-backend-8vq9.onrender.com/api/auth/login",
+        "https://zerodha-backend-4r4d.onrender.com/api/auth/login",
         formdata,
         {
           headers: {

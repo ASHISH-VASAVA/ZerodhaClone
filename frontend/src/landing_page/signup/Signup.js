@@ -23,7 +23,7 @@ function Signup() {
     e.preventDefault();
     try {
       const res = await axios.post(
-        "https://zerodhaclone-backend-8vq9.onrender.com/api/auth/signup",
+        "https://zerodhaclonefrontend-t4pc.onrender.com/api/auth/signup",
         formdata,
         {
           headers: {
