@@ -1,14 +1,11 @@
-const {Schema}=require("mongoose");
+const { Schema } = require("mongoose");
 
-const OrdersSchema=new Schema({
-    name: String,
-    qty: Number,
-    price: Number,
-    mode:String,
-    timestamp: {
-    type: Date,
-    default: Date.now, // ✅ required to sort and filter by time
-  },
+const OrdersSchema = new Schema({
+  name: String,
+  qty: Number,
+  price: Number,
+  mode: String,
+  createdAt: { type: Date, default: Date.now } // 👈 Auto adds order time
 });
 
-module.exports={OrdersSchema};
+module.exports = { OrdersSchema };

@@ -1,27 +1,45 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import "./Orders.css"; // Optional: Keep your styles here
+import "./Orders.css";
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const userId = "demo"; // Replace with dynamic user ID when login is implemented
 
-  useEffect(() => {
-    const fetchOrders = async () => {
-      try {
-        const response = await axios.get(
-          `https://zerodha-backend-4r4d.onrender.com/orders?userId=${userId}`
-        );
-        setOrders(response.data);
-      } catch (err) {
-        console.error("Failed to fetch orders:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
+  // Function to fetch and filter orders from the last 24 hours
+  const fetchRecentOrders = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get(
+        `https://zerodha-backend-4r4d.onrender.com/orders?userId=${userId}`
+      );
 
-    fetchOrders();
+      const now = new Date();
+      const last24Hours = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+      
+      const recentOrders = response.data.filter(order => {
+        const orderDate = new Date(order.timestamp);
+        return orderDate >= last24Hours && orderDate <= now;
+      });
+
+      setOrders(recentOrders);
+    } catch (err) {
+      console.error("Failed to fetch orders:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchRecentOrders();
+
+    // Auto-refresh every 24 hours (86400000 ms)
+    const interval = setInterval(() => {
+      fetchRecentOrders();
+    }, 86400000);
+
+    return () => clearInterval(interval);
   }, []);
 
   if (loading) {
@@ -32,14 +50,14 @@ const Orders = () => {
     <div className="orders">
       {orders.length === 0 ? (
         <div className="no-orders">
-          <p>You haven't placed any orders yet.</p>
+          <p>No orders placed in the last 24 hours.</p>
           <button className="btn" onClick={() => window.location.href = "/"}>
             Start Trading
           </button>
         </div>
       ) : (
         <div className="order-list">
-          <h2>Your Orders</h2>
+          <h2>Your Recent Orders (Last 24 Hours)</h2>
           {orders.map((order, idx) => (
             <div key={idx} className="order-card">
               <p><strong>Stock:</strong> {order.name}</p>

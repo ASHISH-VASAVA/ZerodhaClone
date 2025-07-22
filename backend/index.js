@@ -112,14 +112,16 @@ app.get("/allPositions", async (req, res) => {
   res.json(allPositions);
 });
 
-app.get("/orders", async (req, res) => {
+app.get("/get-orders", async (req, res) => {
   try {
-    const orders = await OrdersModel.find().sort({ _id: -1 }); // latest first
-    res.json(orders);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+    const twentyFourHoursAgo = new Date(Date.now() - 24 * 60 * 60 * 1000); // 24 hours ago
+    const recentOrders = await OrdersModel.find({ createdAt: { $gte: twentyFourHoursAgo } });
+    res.json(recentOrders);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching orders" });
   }
 });
+
 
 app.post("/newOrder", async (req, res) => {
   try {
