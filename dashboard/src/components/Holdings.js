@@ -7,12 +7,18 @@ import { VerticalGraph } from "./VerticalGraph";
 const Holdings = () => {
   const [allHoldings, setAllHoldings] = useState([]);
 
-  useEffect(() => {
-    axios.get("http://127.0.0.1:3002/allHoldings","https://zerodhaclonedashboard-api.onrender.com/allHoldings").then((res) => {
-      
+useEffect(() => {
+  const fetchHoldings = async () => {
+    try {
+      const res = await axios.get("https://zerodhaclonedashboard-api.onrender.com/allHoldings");
       setAllHoldings(res.data);
-    });
-  }, []);
+    } catch (err) {
+      console.error("❌ Error fetching holdings:", err);
+    }
+  };
+
+  fetchHoldings();
+}, []);
 
   // const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
   const labels = allHoldings.map((subArray) => subArray["name"]);
