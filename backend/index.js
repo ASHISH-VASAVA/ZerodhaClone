@@ -113,16 +113,12 @@ app.get("/allPositions", async (req, res) => {
 });
 
 app.get("/orders", async (req, res) => {
-  const { userId } = req.query;
-
-  const twentyFourHoursAgo = Date.now() - 24 * 60 * 60 * 1000;
-
-  const orders = await OrdersModel.find({
-    userId,
-    timestamp: { $gte: twentyFourHoursAgo }
-  }).sort({ timestamp: -1 });
-
-  res.json(orders);
+  try {
+    const orders = await OrdersModel.find().sort({ _id: -1 }); // latest first
+    res.json(orders);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
 app.post("/newOrder", async (req, res) => {

@@ -1,59 +1,55 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import "./Orders.css"; // Optional: Keep your styles here
 
-const Orders = ({ user }) => {
+const Orders = () => {
   const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const userId = "demo"; // Replace with dynamic user ID when login is implemented
 
   useEffect(() => {
-    if (user?._id) {
-      axios
-        .get("https://zerodha-clone-backend-cbao.onrender.com/orders", {
-          params: { userId: user._id },
-          withCredentials: true,
-        })
-        .then((res) => {
-          setOrders(res.data);
-        })
-        .catch((err) => {
-          console.error("Failed to fetch orders", err);
-        });
-    }
-  }, [user]);
+    const fetchOrders = async () => {
+      try {
+        const response = await axios.get(
+          `https://zerodha-backend-4r4d.onrender.com/orders?userId=${userId}`
+        );
+        setOrders(response.data);
+      } catch (err) {
+        console.error("Failed to fetch orders:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchOrders();
+  }, []);
+
+  if (loading) {
+    return <p>Loading orders...</p>;
+  }
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h2 className="text-2xl font-bold mb-4">Your Orders (Last 24 Hours)</h2>
-
+    <div className="orders">
       {orders.length === 0 ? (
-        <p className="text-gray-600">No recent orders placed.</p>
+        <div className="no-orders">
+          <p>You haven't placed any orders yet.</p>
+          <button className="btn" onClick={() => window.location.href = "/"}>
+            Start Trading
+          </button>
+        </div>
       ) : (
-        <div className="overflow-x-auto">
-          <table className="min-w-full table-auto border-collapse border border-gray-300">
-            <thead>
-              <tr className="bg-gray-200">
-                <th className="border px-4 py-2">Stock</th>
-                <th className="border px-4 py-2">Quantity</th>
-                <th className="border px-4 py-2">Price</th>
-                <th className="border px-4 py-2">Mode</th>
-                <th className="border px-4 py-2">Time</th>
-              </tr>
-            </thead>
-            <tbody>
-              {orders.map((order, index) => (
-                <tr key={index} className="text-center">
-                  <td className="border px-4 py-2">{order.name}</td>
-                  <td className="border px-4 py-2">{order.qty}</td>
-                  <td className="border px-4 py-2">₹{order.price}</td>
-                  <td className="border px-4 py-2 capitalize">
-                    {order.mode}
-                  </td>
-                  <td className="border px-4 py-2">
-                    {new Date(order.timestamp).toLocaleString()}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        <div className="order-list">
+          <h2>Your Orders</h2>
+          {orders.map((order, idx) => (
+            <div key={idx} className="order-card">
+              <p><strong>Stock:</strong> {order.name}</p>
+              <p><strong>Order Type:</strong> <span className={order.mode === 'BUY' ? 'buy' : 'sell'}>{order.mode}</span></p>
+              <p><strong>Quantity:</strong> {order.qty}</p>
+              <p><strong>Price:</strong> ₹{order.price}</p>
+              <p><strong>Total:</strong> ₹{(order.qty * order.price).toFixed(2)}</p>
+              <p><strong>Date:</strong> {order.timestamp ? new Date(order.timestamp).toLocaleString() : "N/A"}</p>
+            </div>
+          ))}
         </div>
       )}
     </div>
