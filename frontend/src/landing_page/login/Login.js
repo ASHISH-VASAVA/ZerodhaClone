@@ -16,6 +16,7 @@ function Login() {
   const handleChange = (e) => {
     setFormdata({ ...formdata, [e.target.name]: e.target.value });
   };
+
 const handleLogin = async (e) => {
   e.preventDefault();
   try {
@@ -30,8 +31,8 @@ const handleLogin = async (e) => {
       }
     );
 
-    // ✅ Save username in localStorage (so Menu.js can read it)
-    localStorage.setItem("username", res.data.username); // Make sure backend sends this
+    // ✅ Save the correct username (from backend)
+    localStorage.setItem("username", res.data.user.name);
 
     toast.success("Login successful!");
     setTimeout(() => {
