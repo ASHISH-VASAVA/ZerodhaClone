@@ -9,9 +9,6 @@ const {HoldingsModel}=require("./models/HoldingsModel");
 const {PositionsModel}=require("./models/PositionsModel");
 const {OrdersModel}=require("./models/OrdersModel");
 
-const buyStockRoute = require("./routes/buyStock");
-const sellStockRoute = require("./routes/sellStock");
-
 const app=express();
 const PORT=process.env.PORT || 3002;
 const uri=process.env.MONGO_URL;
