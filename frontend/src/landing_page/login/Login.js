@@ -3,7 +3,7 @@ import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./Login.css";
-import { Link, useNavigate } from "react-router-dom"; 
+import { Link, useNavigate } from "react-router-dom";
 
 function Login() {
   const navigate = useNavigate();
@@ -17,33 +17,33 @@ function Login() {
     setFormdata({ ...formdata, [e.target.name]: e.target.value });
   };
 
-const handleLogin = async (e) => {
-  e.preventDefault();
-  try {
-    const res = await axios.post(
-      "https://zerodhaclone-backend-8vq9.onrender.com/api/auth/login",
-      formdata,
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        withCredentials: true,
-      }
-    );
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await axios.post(
+        "https://zerodhaclone-backend-8vq9.onrender.com/api/auth/login",
+        formdata,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      );
 
-    // ✅ Save the correct username (from backend)
-    localStorage.setItem("username", res.data.user.name);
+      // ✅ Store correct username from backend response
+      const username = res.data.user.name;
+      localStorage.setItem("username", username);
 
-    toast.success("Login successful!");
-    setTimeout(() => {
-      window.location.href = "https://zerodhaclonedashboard.onrender.com";
-    }, 2000);
-  } catch (err) {
-    console.error("❌ Login Error:", err.response?.data || err.message);
-    toast.error(err.response?.data?.message || "Login failed");
-  }
-};
-
+      toast.success("Login successful!");
+      setTimeout(() => {
+        window.location.href = "https://zerodhaclonedashboard.onrender.com";
+      }, 2000);
+    } catch (err) {
+      console.error("❌ Login Error:", err.response?.data || err.message);
+      toast.error(err.response?.data?.message || "Login failed");
+    }
+  };
 
   return (
     <div className="container">
@@ -96,7 +96,6 @@ const handleLogin = async (e) => {
                 type="submit"
                 className="btn btn-primary fs-5 mb-3"
                 style={{ width: "50%", padding: "10px" }}
-                
               >
                 Login
               </button>
