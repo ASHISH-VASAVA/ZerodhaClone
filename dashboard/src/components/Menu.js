@@ -1,38 +1,29 @@
 import React, { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
-import "./Menu.css";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import "./Menu.css"; // Import the CSS
 
 const Menu = () => {
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
   const [username, setUsername] = useState("");
 
   useEffect(() => {
     const storedUser = localStorage.getItem("username");
-    if (storedUser) {
-      setUsername(storedUser);
-    }
+    if (storedUser) setUsername(storedUser);
   }, []);
 
   const handleProfileClick = () => {
     setIsProfileDropdownOpen(!isProfileDropdownOpen);
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem("username");
-    window.location.href = "https://zerodhaclonefrontend-t4pc.onrender.com";
-  };
+ const handleLogout = () => {
+  localStorage.removeItem("username");
+  window.location.href = "https://zerodhaclonefrontend-t4pc.onrender.com"; // Redirect to home page after logout
+};
+
 
   const isActive = (path) => location.pathname === path;
-
-  // Optional: generate initials from name
-  const getInitials = (name) => {
-    return name
-      .split(" ")
-      .map((n) => n[0])
-      .join("")
-      .toUpperCase();
-  };
 
   return (
     <div className="menu-container">
@@ -74,11 +65,10 @@ const Menu = () => {
         <hr />
 
         <div className="profile">
-          <div className="avatar" onClick={handleProfileClick}>
-            {username ? getInitials(username) : "G"}
-          </div>
+          {/* When you click either of these, dropdown opens */}
+          <div className="avatar" onClick={handleProfileClick}>ZU</div>
           <div className="profile-info" onClick={handleProfileClick}>
-            <p className="username">{username || "Guest"}</p>
+            <p className="username">{username || "USERID"}</p>
 
             {isProfileDropdownOpen && (
               <div className="profile-dropdown" onClick={(e) => e.stopPropagation()}>
