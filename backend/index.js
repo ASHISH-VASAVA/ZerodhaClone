@@ -16,7 +16,7 @@ const uri=process.env.MONGO_URL;
 
 app.use(cors({
   origin: [
-    "http://localhost:3000",
+    "http://127.0.0.1:3002/allHoldings",
     "https://zerodhaclonefrontend-t4pc.onrender.com",
     "https://zerodhaclonedashboard.onrender.com"
   ],
