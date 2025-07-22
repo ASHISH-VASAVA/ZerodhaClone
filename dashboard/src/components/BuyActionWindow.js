@@ -1,10 +1,8 @@
 import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
-
 import axios from "axios";
 
-import GeneralContext from "./GeneralContext"; 
-
+import GeneralContext from "./GeneralContext";
 import "./BuyActionWindow.css";
 
 const BuyActionWindow = ({ uid }) => {
@@ -13,19 +11,24 @@ const BuyActionWindow = ({ uid }) => {
 
   const { closeBuyWindow } = useContext(GeneralContext);
 
+  const handleBuyClick = async () => {
+    try {
+      await axios.post("https://zerodha-backend-4r4d.onrender.com/newOrder", {
+        name: uid,
+        qty: stockQuantity,
+        price: stockPrice,
+        mode: "BUY",
+      });
 
-
-  const handleBuyClick = () => {
-    axios.post("https://zerodha-backend-4r4d.onrender.com/newOrder", {
-      name: uid,
-      qty: stockQuantity,
-      price: stockPrice,
-      mode: "BUY",
-    });
-    
-    closeBuyWindow();
+      alert("✅ Buy order successful!");
+      window.location.reload(); // Refresh page to update holdings
+    } catch (error) {
+      console.error("Buy error:", error);
+      alert("❌ Buy order failed!");
+    } finally {
+      closeBuyWindow();
+    }
   };
-  
 
   const handleCancelClick = () => {
     closeBuyWindow();
@@ -60,7 +63,7 @@ const BuyActionWindow = ({ uid }) => {
       </div>
 
       <div className="buttons">
-        <span>Margin required ₹140.65</span>
+        <span>Margin required ₹{(stockQuantity * stockPrice).toFixed(2)}</span>
         <div>
           <Link className="btn btn-blue" onClick={handleBuyClick}>
             Buy
