@@ -25,3 +25,13 @@
   border: none;
   cursor: pointer;
 }
+
+.delete-btn {
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 10px;
+}
