@@ -111,12 +111,13 @@ app.get("/allPositions", async (req, res) => {
   res.json(allPositions);
 });
 
-app.post("/newOrder", async (req, res) => {
+app.post('/newOrder', async (req, res) => {
   try {
     const { name, qty, price, mode } = req.body;
 
-    console.log(req.body);
+    console.log("📦 Incoming Order:", req.body);
 
+    // ✅ Save order
     const newOrder = new OrdersModel({ name, qty, price, mode });
     await newOrder.save();
 
@@ -124,6 +125,7 @@ app.post("/newOrder", async (req, res) => {
 
     if (mode === "BUY") {
       if (existingHolding) {
+        // Update quantity and average price
         const totalQty = existingHolding.qty + Number(qty);
         const totalCost = existingHolding.avg * existingHolding.qty + Number(price) * Number(qty);
         const newAvg = totalCost / totalQty;
@@ -133,6 +135,7 @@ app.post("/newOrder", async (req, res) => {
         existingHolding.price = Number(price);
         await existingHolding.save();
       } else {
+        // New holding
         const newHolding = new HoldingsModel({
           name,
           qty: Number(qty),
@@ -144,22 +147,29 @@ app.post("/newOrder", async (req, res) => {
         await newHolding.save();
       }
     } else if (mode === "SELL") {
-      if (!existingHolding || existingHolding.qty < qty) {
-        return res.status(400).json({ error: "Not enough quantity to sell." });
+      if (!existingHolding) {
+        return res.status(400).send("❌ Cannot sell. Holding not found.");
       }
 
+      if (existingHolding.qty < Number(qty)) {
+        return res.status(400).send("❌ Cannot sell more than available quantity.");
+      }
+
+      // Subtract qty
       existingHolding.qty -= Number(qty);
+      existingHolding.price = Number(price); // update last sold price
 
       if (existingHolding.qty === 0) {
-        await HoldingsModel.deleteOne({ _id: existingHolding._id });
+        await HoldingsModel.deleteOne({ name });
       } else {
         await existingHolding.save();
       }
     }
 
-    res.send("Order saved and Holdings updated!");
+    res.send("✅ Order saved and holdings updated.");
+
   } catch (err) {
-    console.error("❌ Error saving order or updating holdings:", err);
+    console.error("❌ Error processing order:", err);
     res.status(500).send("Internal Server Error");
   }
 });
