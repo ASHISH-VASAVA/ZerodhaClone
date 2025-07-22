@@ -1,46 +1,29 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import "./Menu.css";
+import "./Menu.css"; // Import the CSS
 
 const Menu = () => {
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
-  const [username, setUsername] = useState("");
-  const dropdownRef = useRef(null);
   const location = useLocation();
   const navigate = useNavigate();
+  const [username, setUsername] = useState("");
 
   useEffect(() => {
     const storedUser = localStorage.getItem("username");
     if (storedUser) setUsername(storedUser);
   }, []);
 
-  // Close dropdown when location (route) changes
-  useEffect(() => {
-    setIsProfileDropdownOpen(false);
-  }, [location]);
-
-  // Close dropdown when clicked outside
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setIsProfileDropdownOpen(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-
-  const handleLogout = () => {
-    localStorage.removeItem("username");
-    window.location.href = "https://zerodhaclonefrontend-t4pc.onrender.com";
-  };
-
-  const isActive = (path) => location.pathname === path;
-
-  const toggleProfileDropdown = () => {
+  const handleProfileClick = () => {
     setIsProfileDropdownOpen(!isProfileDropdownOpen);
   };
+
+ const handleLogout = () => {
+  localStorage.removeItem("username");
+  window.location.href = "https://zerodhaclonefrontend-t4pc.onrender.com"; // Redirect to home page after logout
+};
+
+
+  const isActive = (path) => location.pathname === path;
 
   return (
     <div className="menu-container">
@@ -81,17 +64,18 @@ const Menu = () => {
 
         <hr />
 
-        <div className="profile" ref={dropdownRef}>
-          <div className="avatar" onClick={toggleProfileDropdown}>ZU</div>
-          <div className="profile-info" onClick={toggleProfileDropdown}>
+        <div className="profile">
+          {/* When you click either of these, dropdown opens */}
+          <div className="avatar" onClick={handleProfileClick}>ZU</div>
+          <div className="profile-info" onClick={handleProfileClick}>
             <p className="username">{username || "USERID"}</p>
-          </div>
 
-          {isProfileDropdownOpen && (
-            <div className="profile-dropdown">
-              <p className="logout-btn" onClick={handleLogout}>Logout</p>
-            </div>
-          )}
+            {isProfileDropdownOpen && (
+              <div className="profile-dropdown" onClick={(e) => e.stopPropagation()}>
+                <p onClick={handleLogout} className="logout-btn">Logout</p>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>
