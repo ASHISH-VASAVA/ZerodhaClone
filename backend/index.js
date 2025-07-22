@@ -4,10 +4,12 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 require("dotenv").config();
 const authRoutes = require("./routes/auth");
+const Order = require("./models/Order");
 
 const { HoldingsModel } = require("./models/HoldingsModel");
 const { PositionsModel } = require("./models/PositionsModel");
 const { OrdersModel } = require("./models/OrdersModel");
+
 
 const app = express();
 const PORT = process.env.PORT || 3002;
@@ -111,21 +113,41 @@ app.get("/allPositions", async (req, res) => {
   res.json(allPositions);
 });
 
-app.post('/newOrder', async (req, res) => {
+// ✅ Get all orders for a specific user
+app.get("/orders", async (req, res) => {
+  const { userId } = req.query;
+
+  try {
+    const orders = await Order.find({ userId }).sort({ timestamp: -1 });
+    res.json(orders);
+  } catch (err) {
+    console.error("❌ Error fetching orders:", err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+
+app.post("/newOrder", async (req, res) => {
   try {
     const { name, qty, price, mode } = req.body;
 
-    console.log("📦 Incoming Order:", req.body);
+    console.log(req.body);
 
-    // ✅ Save order
-    const newOrder = new OrdersModel({ name, qty, price, mode });
+    // ✅ 1. Save to Order History
+    const newOrder = new Order({
+      userId: name,             // assuming user name is acting as user ID
+      stockName: name,          // if name is stock name, else separate that
+      quantity: Number(qty),
+      price: Number(price),
+      mode: mode,
+    });
     await newOrder.save();
 
+    // ✅ 2. Update Holdings
     const existingHolding = await HoldingsModel.findOne({ name });
 
     if (mode === "BUY") {
       if (existingHolding) {
-        // Update quantity and average price
         const totalQty = existingHolding.qty + Number(qty);
         const totalCost = existingHolding.avg * existingHolding.qty + Number(price) * Number(qty);
         const newAvg = totalCost / totalQty;
@@ -135,7 +157,6 @@ app.post('/newOrder', async (req, res) => {
         existingHolding.price = Number(price);
         await existingHolding.save();
       } else {
-        // New holding
         const newHolding = new HoldingsModel({
           name,
           qty: Number(qty),
@@ -147,32 +168,26 @@ app.post('/newOrder', async (req, res) => {
         await newHolding.save();
       }
     } else if (mode === "SELL") {
-      if (!existingHolding) {
-        return res.status(400).send("❌ Cannot sell. Holding not found.");
+      if (!existingHolding || existingHolding.qty < qty) {
+        return res.status(400).json({ error: "Not enough quantity to sell." });
       }
 
-      if (existingHolding.qty < Number(qty)) {
-        return res.status(400).send("❌ Cannot sell more than available quantity.");
-      }
-
-      // Subtract qty
       existingHolding.qty -= Number(qty);
-      existingHolding.price = Number(price); // update last sold price
 
       if (existingHolding.qty === 0) {
-        await HoldingsModel.deleteOne({ name });
+        await HoldingsModel.deleteOne({ _id: existingHolding._id });
       } else {
         await existingHolding.save();
       }
     }
 
-    res.send("✅ Order saved and holdings updated.");
-
+    res.status(200).json({ message: "Order saved and Holdings updated!" });
   } catch (err) {
-    console.error("❌ Error processing order:", err);
+    console.error("❌ Error saving order or updating holdings:", err);
     res.status(500).send("Internal Server Error");
   }
 });
+
 
 app.listen(PORT, () => {
   console.log("App started!");
