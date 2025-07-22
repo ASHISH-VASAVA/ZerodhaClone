@@ -114,18 +114,10 @@ app.get("/allPositions", async (req, res) => {
 
 app.get("/orders", async (req, res) => {
   try {
-    const { userId } = req.query;
-
-    const twentyFourHoursAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
-
-    const orders = await OrdersModel.find({
-      userId,
-      timestamp: { $gte: twentyFourHoursAgo }, // ✅ last 24 hours only
-    }).sort({ timestamp: -1 });
-
+    const orders = await OrdersModel.find().sort({ _id: -1 }); // latest first
     res.json(orders);
-  } catch (error) {
-    res.status(500).json({ error: "Failed to fetch orders" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 });
 
