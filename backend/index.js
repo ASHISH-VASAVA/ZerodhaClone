@@ -130,13 +130,7 @@ app.post("/newOrder", async (req, res) => {
     console.log(req.body);
 
     // ✅ 1. Save to OrdersModel (this was missing)
-    const order = new Order({
-    name,
-    price,
-    qty,
-    type,
-    date: new Date(),
-  });
+    const newOrder = new OrdersModel({ name, qty, price, mode });
     await newOrder.save();
 
     // ✅ 2. Update Holdings
