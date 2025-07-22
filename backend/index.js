@@ -245,37 +245,34 @@ app.post('/newOrder', async (req, res) => {
     }
 
     // ✅ SELL Logic
-if (mode === "SELL") {
-  const existingHolding = await HoldingsModel.findOne({ name });
+    if (mode === "SELL") {
+      const existingHolding = await HoldingsModel.findOne({ name });
 
-  if (!existingHolding) {
-    return res.status(400).json({ message: "Stock not found in holdings." });
-  }
+      if (!existingHolding) {
+        return res.status(400).json({ error: "Stock not found in holdings" });
+      }
 
-  if (existingHolding.qty < Number(qty)) {
-    return res.status(400).json({ message: "Not enough stock to sell." });
-  }
+      if (existingHolding.qty < Number(qty)) {
+        return res.status(400).json({ error: "Not enough quantity to sell" });
+      }
 
-  const updatedQty = existingHolding.qty - Number(qty);
+      existingHolding.qty -= Number(qty);
+      existingHolding.price = Number(price); // update to latest market price
 
-  if (updatedQty === 0) {
-    // Optionally remove the stock if all shares are sold
-    await HoldingsModel.deleteOne({ name });
-  } else {
-    existingHolding.qty = updatedQty;
-    existingHolding.price = Number(price); // update to latest price
-    // avg remains the same — it's historical
-    await existingHolding.save();
-  }
+      if (existingHolding.qty === 0) {
+        await HoldingsModel.deleteOne({ name });
+      } else {
+        await existingHolding.save();
+      }
+    }
 
-    res.status(200).json({ message: "Order processed and holdings updated." });
+    res.send("Order saved and Holdings updated!");
 
   } catch (err) {
-    console.error("❌ Error processing order:", err);
-    res.status(500).json({ error: "Internal server error" });
+    console.error("❌ Error saving order or updating holdings:", err);
+    res.status(500).send("Internal Server Error");
   }
 });
-
 
 app.listen(PORT, () =>{
     console.log("App started!");
