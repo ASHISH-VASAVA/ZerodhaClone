@@ -244,27 +244,33 @@ app.post('/newOrder', async (req, res) => {
       }
     }
 
-    // ✅ SELL Logic
-    if (mode === "SELL") {
-      const existingHolding = await HoldingsModel.findOne({ name });
+   // ✅ SELL Logic
+else if (mode === "SELL") {
+  const existingHolding = await HoldingsModel.findOne({ name });
 
-      if (!existingHolding) {
-        return res.status(400).json({ error: "Stock not found in holdings" });
-      }
+  if (!existingHolding) {
+    return res.status(400).json({ error: "Stock not found in holdings" });
+  }
 
-      if (existingHolding.qty < Number(qty)) {
-        return res.status(400).json({ error: "Not enough quantity to sell" });
-      }
+  const currentQty = Number(existingHolding.qty);
+  const sellQty = Number(qty);
 
-      existingHolding.qty -= Number(qty);
-      existingHolding.price = Number(price); // update to latest market price
+  if (sellQty > currentQty) {
+    return res.status(400).json({ error: "Not enough quantity to sell" });
+  }
 
-      if (existingHolding.qty === 0) {
-        await HoldingsModel.deleteOne({ name });
-      } else {
-        await existingHolding.save();
-      }
-    }
+  const updatedQty = currentQty - sellQty;
+
+  if (updatedQty === 0) {
+    await HoldingsModel.deleteOne({ name });
+    console.log(`✅ All shares of ${name} sold. Holding removed.`);
+  } else {
+    existingHolding.qty = updatedQty;
+    existingHolding.price = Number(price); // Optional: update to latest price
+    await existingHolding.save();
+    console.log(`✅ Sold ${sellQty} of ${name}. Remaining qty: ${updatedQty}`);
+  }
+}
 
     res.send("Order saved and Holdings updated!");
 
