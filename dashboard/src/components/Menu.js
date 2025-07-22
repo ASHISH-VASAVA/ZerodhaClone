@@ -19,7 +19,7 @@ const Menu = () => {
 
  const handleLogout = () => {
   localStorage.removeItem("username");
-  navigate("/"); // Redirect to home page after logout
+  navigate("/https://zerodhaclonedashboard.onrender.com"); // Redirect to home page after logout
 };
 
 
