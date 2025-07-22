@@ -4,8 +4,6 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 require("dotenv").config();
 const authRoutes = require("./routes/auth");
-const Order = require('./models/Order');
-
 
 const { HoldingsModel } = require("./models/HoldingsModel");
 const { PositionsModel } = require("./models/PositionsModel");
@@ -30,8 +28,6 @@ app.use(
 
 app.use(bodyParser.json());
 app.use("/api/auth", authRoutes);
-app.use('/orders', orderRoutes);
-
 
 app.get("/addHoldings", async (req, res) => {
   let tempHoldings = [

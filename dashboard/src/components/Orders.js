@@ -1,21 +1,19 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import "./Orders.css";
+import "./Orders.css"; // Optional, for styling
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
-  const userId = "demo"; // Replace with actual logged-in user ID
+  const userId = "demo"; // Replace with actual logged-in user id if dynamic
 
-const handleDeleteOrder = async (orderId) => {
+  const handleDeleteOrder = async (orderId) => {
   try {
-    const response = await axios.delete(`https://zerodha-backend-4r4d.onrender.com/orders/${orderId}`);
-    console.log(response.data.message); // success message
-
-    // Remove the deleted order from state
-    setOrders(prevOrders => prevOrders.filter(order => order._id !== orderId));
+    await axios.delete(`https://zerodha-backend-4r4d.onrender.com/orders/${orderId}`);
+    // Refetch or filter the order list
+    setOrders((prevOrders) => prevOrders.filter((order) => order._id !== orderId));
   } catch (error) {
-    console.error("Failed to delete order", error);
+    console.error("Failed to delete order:", error);
   }
 };
 
@@ -52,21 +50,23 @@ const handleDeleteOrder = async (orderId) => {
       ) : (
         <div className="order-list">
           <h2>Your Orders</h2>
-          {orders.map((order) => (
-            <div key={order._id} className="order-card">
-              <p><strong>Stock:</strong> {order.stockName}</p>
-              <p><strong>Mode:</strong> {order.mode}</p>
-              <p><strong>Quantity:</strong> {order.qty}</p>
-              <p><strong>Price:</strong> ₹{order.price}</p>
-              <p><strong>Total:</strong> ₹{(order.qty * order.price).toFixed(2)}</p>
-              <p><strong>Date:</strong> {new Date(order.date).toLocaleString()}</p>
-
-              <button
-                onClick={() => handleDeleteOrder(order._id)}
-                className="delete-btn"
-              >
-                Delete Order
-              </button>
+          {orders.map((order, idx) => (
+            <div key={idx} className="order-card">
+              <p>
+                <strong>Stock:</strong> {order.name}
+              </p>
+              <p>
+                <strong>Mode:</strong> {order.mode}
+              </p>
+              <p>
+                <strong>Quantity:</strong> {order.qty}
+              </p>
+              <p>
+                <strong>Price:</strong> ₹{order.price}
+              </p>
+              <p>
+                <strong>Total:</strong> ₹{(order.qty * order.price).toFixed(2)}
+              </p>
             </div>
           ))}
         </div>
