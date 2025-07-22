@@ -16,30 +16,33 @@ function Login() {
   const handleChange = (e) => {
     setFormdata({ ...formdata, [e.target.name]: e.target.value });
   };
+const handleLogin = async (e) => {
+  e.preventDefault();
+  try {
+    const res = await axios.post(
+      "https://zerodhaclone-backend-8vq9.onrender.com/api/auth/login",
+      formdata,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      }
+    );
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    try {
-      const res = await axios.post(
-        "https://zerodhaclone-backend-8vq9.onrender.com/api/auth/login",
-        formdata,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-          withCredentials: true,
-        }
-      );
-      toast.success("Login successful!");
-      setTimeout(() => {
-        window.location.href = "https://zerodhaclonedashboard.onrender.com";
+    // ✅ Save username in localStorage (so Menu.js can read it)
+    localStorage.setItem("username", res.data.username); // Make sure backend sends this
 
-      }, 2000);
-    } catch (err) {
-      console.error("❌ Login Error:", err.response?.data || err.message);
-      toast.error(err.response?.data?.message || "Login failed");
-    }
-  };
+    toast.success("Login successful!");
+    setTimeout(() => {
+      window.location.href = "https://zerodhaclonedashboard.onrender.com";
+    }, 2000);
+  } catch (err) {
+    console.error("❌ Login Error:", err.response?.data || err.message);
+    toast.error(err.response?.data?.message || "Login failed");
+  }
+};
+
 
   return (
     <div className="container">
