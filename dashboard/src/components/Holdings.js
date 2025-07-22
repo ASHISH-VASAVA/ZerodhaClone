@@ -13,7 +13,6 @@ useEffect(() => {
       withCredentials: true,
     })
     .then((res) => {
-      console.log("✅ Holdings data:", res.data);
       setAllHoldings(res.data);
     })
     .catch((err) => {
