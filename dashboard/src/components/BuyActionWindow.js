@@ -10,6 +10,7 @@ const BuyActionWindow = ({ uid }) => {
   const [stockPrice, setStockPrice] = useState(0.0);
 
   const { closeBuyWindow } = useContext(GeneralContext);
+  const currentUserId = localStorage.getItem("userId");
 
   const handleBuyClick = async () => {
     try {
@@ -18,6 +19,7 @@ const BuyActionWindow = ({ uid }) => {
         qty: stockQuantity,
         price: stockPrice,
         mode: "BUY",
+        userId: currentUserId, 
       });
 
       alert("✅ Buy order successful!");

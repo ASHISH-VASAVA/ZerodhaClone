@@ -11,7 +11,10 @@ const OrdersList = () => {
 
   const fetchOrders = async () => {
     try {
-      const res = await axios.get("https://zerodha-backend-4r4d.onrender.com/orders"); // ✅ UPDATE with your backend URL
+      const userId = localStorage.getItem("userId"); // ✅ get logged-in user's ID
+
+      const res = await axios.get(`https://zerodha-backend-4r4d.onrender.com/orders?userId=${userId}`); // ✅ only fetch this user's orders
+
       setOrders(res.data);
     } catch (err) {
       console.error("Failed to fetch orders", err);
@@ -49,7 +52,9 @@ const OrdersList = () => {
             <span>₹{order.price}</span>
             <span>₹{(order.qty * order.price).toFixed(2)}</span>
             <span>
-              <button className="delete-btn" onClick={() => handleDelete(order._id)}>Delete</button>
+              <button className="delete-btn" onClick={() => handleDelete(order._id)}>
+                Delete
+              </button>
             </span>
           </div>
         ))}

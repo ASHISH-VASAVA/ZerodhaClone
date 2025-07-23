@@ -31,13 +31,18 @@ function Login() {
         }
       );
 
-      // ✅ Store correct username from backend response
-      const username = res.data.user.name;
-      localStorage.setItem("username", username);
+      // ✅ Save user info to localStorage
+      const user = res.data.user;
+      localStorage.setItem("username", user.name);
+      localStorage.setItem("userId", user._id); // ✅ important for user-based dashboard
 
       toast.success("Login successful!");
+
+      // ✅ Redirect
       setTimeout(() => {
-        window.location.href = `https://zerodhaclonedashboard.onrender.com?username=${encodeURIComponent(username)}`;
+        window.location.href = `https://zerodhaclonedashboard.onrender.com?username=${encodeURIComponent(
+          user.name
+        )}`;
       }, 2000);
     } catch (err) {
       console.error("❌ Login Error:", err.response?.data || err.message);
