@@ -8,14 +8,18 @@ const Orders = () => {
   const userId = "demo"; // Replace with actual logged-in user id if dynamic
 
   const handleDeleteOrder = async (orderId) => {
-  try {
-    await axios.delete(`https://zerodha-backend-4r4d.onrender.com/orders/${orderId}`);
-    // Refetch or filter the order list
-    setOrders((prevOrders) => prevOrders.filter((order) => order._id !== orderId));
-  } catch (error) {
-    console.error("Failed to delete order:", error);
-  }
-};
+    try {
+      await axios.delete(
+        `https://zerodha-backend-4r4d.onrender.com/orders/${orderId}`
+      );
+      // Refetch or filter the order list
+      setOrders((prevOrders) =>
+        prevOrders.filter((order) => order._id !== orderId)
+      );
+    } catch (error) {
+      console.error("Failed to delete order:", error);
+    }
+  };
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -48,27 +52,28 @@ const Orders = () => {
           </button>
         </div>
       ) : (
-        <div className="order-list">
+        <div className="orders-container">
           <h2>Your Orders</h2>
-          {orders.map((order, idx) => (
-            <div key={idx} className="order-card">
-              <p>
-                <strong>Stock:</strong> {order.name}
-              </p>
-              <p>
-                <strong>Mode:</strong> {order.mode}
-              </p>
-              <p>
-                <strong>Quantity:</strong> {order.qty}
-              </p>
-              <p>
-                <strong>Price:</strong> ₹{order.price}
-              </p>
-              <p>
-                <strong>Total:</strong> ₹{(order.qty * order.price).toFixed(2)}
-              </p>
+
+          <div className="orders-table">
+            <div className="table-header">
+              <span>Stock</span>
+              <span>Mode</span>
+              <span>Quantity</span>
+              <span>Price</span>
+              <span>Total</span>
             </div>
-          ))}
+
+            {orders.map((order, idx) => (
+              <div className="table-row" key={idx}>
+                <span>{order.name}</span>
+                <span>{order.mode}</span>
+                <span>{order.qty}</span>
+                <span>₹{order.price}</span>
+                <span>₹{(order.qty * order.price).toFixed(2)}</span>
+              </div>
+            ))}
+          </div>
         </div>
       )}
     </div>

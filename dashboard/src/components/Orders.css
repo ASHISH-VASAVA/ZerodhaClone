@@ -1,27 +1,35 @@
-.order-card {
-  border: 1px solid #ccc;
-  border-radius: 12px;
-  padding: 16px;
-  margin: 12px 0;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+.orders-container {
+  padding: 20px;
+}
+
+.orders-table {
+  width: 100%;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.table-header, .table-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+}
+
+.table-header {
+  background-color: #f8f8f8;
+  font-weight: bold;
+}
+
+.table-row {
   background-color: #fff;
 }
 
-.buy {
-  color: green;
-  font-weight: bold;
+.table-row:nth-child(even) {
+  background-color: #fafafa;
 }
 
-.sell {
-  color: red;
-  font-weight: bold;
-}
-
-.btn {
-  background-color: #0077ff;
-  color: white;
-  padding: 10px 20px;
-  border-radius: 6px;
-  border: none;
-  cursor: pointer;
+.table-row span {
+  padding: 4px;
 }
