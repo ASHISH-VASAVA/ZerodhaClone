@@ -116,7 +116,10 @@ app.get("/allPositions", async (req, res) => {
 
 app.get("/orders", async (req, res) => {
   try {
-    const orders = await OrdersModel.find().sort({ _id: -1 }); // latest first
+    const { userId } = req.query; // 👈 or from token/cookie later
+    if (!userId) return res.status(400).json({ error: "Missing userId" });
+
+    const orders = await OrdersModel.find({ userId }).sort({ _id: -1 });
     res.json(orders);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -125,11 +128,11 @@ app.get("/orders", async (req, res) => {
 
 app.post("/newOrder", async (req, res) => {
   try {
-    const { name, qty, price, mode } = req.body;
+    const { name, qty, price, mode,userId  } = req.body;
 
     console.log(req.body);
 
-    const newOrder = new OrdersModel({ name, qty, price, mode });
+    const newOrder = new OrdersModel({ name, qty, price, mode,userId  });
     await newOrder.save();
 
     const existingHolding = await HoldingsModel.findOne({ name });

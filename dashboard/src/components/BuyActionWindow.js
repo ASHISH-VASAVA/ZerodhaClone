@@ -18,6 +18,7 @@ const BuyActionWindow = ({ uid }) => {
         qty: stockQuantity,
         price: stockPrice,
         mode: "BUY",
+        userId: currentUserId, 
       });
 
       alert("✅ Buy order successful!");

@@ -18,6 +18,7 @@ const SellActionWindow = ({ uid }) => {
         qty: stockQuantity,
         price: stockPrice,
         mode: "SELL",
+        userId: currentUserId, 
       });
 
       alert("✅ Sell order successful!");

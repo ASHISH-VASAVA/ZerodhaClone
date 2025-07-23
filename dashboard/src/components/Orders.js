@@ -9,14 +9,15 @@ const OrdersList = () => {
     fetchOrders();
   }, []);
 
-  const fetchOrders = async () => {
-    try {
-      const res = await axios.get("https://zerodha-backend-4r4d.onrender.com/orders"); // ✅ UPDATE with your backend URL
-      setOrders(res.data);
-    } catch (err) {
-      console.error("Failed to fetch orders", err);
-    }
-  };
+const fetchOrders = async () => {
+  try {
+    const currentUserId = localStorage.getItem("userId"); // or context
+    const res = await axios.get(`https://zerodha-backend-4r4d.onrender.com/orders?userId=${currentUserId}`);
+    setOrders(res.data);
+  } catch (err) {
+    console.error("Failed to fetch orders", err);
+  }
+};
 
   const handleDelete = async (id) => {
     try {
