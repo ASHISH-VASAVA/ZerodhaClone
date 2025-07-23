@@ -28,14 +28,16 @@
 }
 
 .delete-btn {
-  background-color: #ff4d4d;
-  border: none;
+  padding: 5px 10px;
+  background-color: #ff3b3b;
   color: white;
-  padding: 5px 15px;
-  border-radius: 5px;
+  border: none;
+  border-radius: 6px;
   cursor: pointer;
+  font-size: 14px;
+  transition: background 0.2s ease;
 }
 
 .delete-btn:hover {
-  background-color: #e60000;
+  background-color: #d70000;
 }

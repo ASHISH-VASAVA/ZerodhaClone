@@ -11,9 +11,7 @@ const OrdersList = () => {
 
   const fetchOrders = async () => {
     try {
-      const res = await axios.get(
-        "https://zerodha-backend-4r4d.onrender.com/orders"
-      ); // ✅ UPDATE with your backend URL
+      const res = await axios.get("https://zerodha-backend-4r4d.onrender.com/orders"); // ✅ UPDATE with your backend URL
       setOrders(res.data);
     } catch (err) {
       console.error("Failed to fetch orders", err);
@@ -22,9 +20,7 @@ const OrdersList = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(
-        `https://zerodha-backend-4r4d.onrender.com/orders/${id}`
-      );
+      await axios.delete(`https://zerodha-backend-4r4d.onrender.com/orders/${id}`);
       setOrders((prev) => prev.filter((order) => order._id !== id));
     } catch (err) {
       console.error("Delete failed", err);
@@ -45,29 +41,17 @@ const OrdersList = () => {
           <span>Action</span>
         </div>
 
-        {orders.map((order, index) => (
-          <tr key={index}>
-            <td>{order.stock}</td>
-            <td
-              style={{
-                color: order.mode === "BUY" ? "green" : "red",
-                fontWeight: "bold",
-              }}
-            >
-              {order.mode}
-            </td>
-            <td>{order.qty}</td>
-            <td>₹{order.price}</td>
-            <td>₹{(order.qty * order.price).toFixed(2)}</td>
-            <td>
-              <button
-                className="delete-btn"
-                onClick={() => handleDelete(order._id)}
-              >
-                Cancel
-              </button>
-            </td>
-          </tr>
+        {orders.map((order) => (
+          <div className="table-row" key={order._id}>
+            <span>{order.name}</span>
+            <span>{order.mode}</span>
+            <span>{order.qty}</span>
+            <span>₹{order.price}</span>
+            <span>₹{(order.qty * order.price).toFixed(2)}</span>
+            <span>
+              <button className="delete-btn" onClick={() => handleDelete(order._id)}>Delete</button>
+            </span>
+          </div>
         ))}
       </div>
     </div>
