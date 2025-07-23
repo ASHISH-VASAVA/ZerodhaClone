@@ -10,16 +10,8 @@ const OrdersList = () => {
   }, []);
 
   const fetchOrders = async () => {
-    const userId = localStorage.getItem("userId"); // ✅ get from storage
-    if (!userId) {
-      console.error("User not logged in");
-      return;
-    }
-
     try {
-      const res = await axios.get(
-        `https://zerodha-backend-4r4d.onrender.com/orders?userId=${userId}`
-      );
+      const res = await axios.get("https://zerodha-backend-4r4d.onrender.com/orders"); // ✅ UPDATE with your backend URL
       setOrders(res.data);
     } catch (err) {
       console.error("Failed to fetch orders", err);
@@ -28,9 +20,7 @@ const OrdersList = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(
-        `https://zerodha-backend-4r4d.onrender.com/orders/${id}`
-      );
+      await axios.delete(`https://zerodha-backend-4r4d.onrender.com/orders/${id}`);
       setOrders((prev) => prev.filter((order) => order._id !== id));
     } catch (err) {
       console.error("Delete failed", err);
@@ -59,12 +49,7 @@ const OrdersList = () => {
             <span>₹{order.price}</span>
             <span>₹{(order.qty * order.price).toFixed(2)}</span>
             <span>
-              <button
-                className="delete-btn"
-                onClick={() => handleDelete(order._id)}
-              >
-                Delete
-              </button>
+              <button className="delete-btn" onClick={() => handleDelete(order._id)}>Delete</button>
             </span>
           </div>
         ))}

@@ -116,27 +116,20 @@ app.get("/allPositions", async (req, res) => {
 
 app.get("/orders", async (req, res) => {
   try {
-    const { userId } = req.query;
-
-    if (!userId) {
-      return res.status(400).json({ message: "Missing userId" });
-    }
-
-    const orders = await OrdersModel.find({ userId }).sort({ _id: -1 });
+    const orders = await OrdersModel.find().sort({ _id: -1 }); // latest first
     res.json(orders);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
 
-
 app.post("/newOrder", async (req, res) => {
   try {
-    const { name, qty, price, mode, userId } = req.body;
+    const { name, qty, price, mode } = req.body;
 
     console.log(req.body);
 
-    const newOrder = new OrdersModel({ name, qty, price, mode, userId });
+    const newOrder = new OrdersModel({ name, qty, price, mode });
     await newOrder.save();
 
     const existingHolding = await HoldingsModel.findOne({ name });
@@ -182,7 +175,6 @@ app.post("/newOrder", async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
-
 
 app.listen(PORT, () => {
   console.log("App started!");

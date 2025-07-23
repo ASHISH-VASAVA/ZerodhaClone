@@ -32,14 +32,12 @@ function Login() {
       );
 
       // ✅ Store correct username from backend response
-      const user = res.data.user;
-      localStorage.setItem("username", user.name);
-      localStorage.setItem("userId", user._id); // ✅ ADD THIS
+      const username = res.data.user.name;
+      localStorage.setItem("username", username);
+
       toast.success("Login successful!");
       setTimeout(() => {
-        window.location.href = `https://zerodhaclonedashboard.onrender.com?username=${encodeURIComponent(
-          user.name
-        )}`;
+        window.location.href = `https://zerodhaclonedashboard.onrender.com?username=${encodeURIComponent(username)}`;
       }, 2000);
     } catch (err) {
       console.error("❌ Login Error:", err.response?.data || err.message);
