@@ -1,4 +1,3 @@
-// /backend/schemas/OrdersSchema.js
 const mongoose = require("mongoose");
 
 const OrdersSchema = new mongoose.Schema({
@@ -8,9 +7,9 @@ const OrdersSchema = new mongoose.Schema({
   mode: String,
   userId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User", // Optional: if you want to link it to User model
-    required: true
-  }
+    ref: "User",
+    required: true,
+  },
 });
 
 module.exports = { OrdersSchema };
