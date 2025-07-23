@@ -28,6 +28,8 @@ app.use(
 
 app.use(bodyParser.json());
 app.use("/api/auth", authRoutes);
+app.use("/orders", require("./routes/orders"));
+
 
 app.get("/addHoldings", async (req, res) => {
   let tempHoldings = [
