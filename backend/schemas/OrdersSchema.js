@@ -5,7 +5,10 @@ const OrdersSchema=new Schema({
     qty: Number,
     price: Number,
     mode:String,
-    userId: String ,
+    userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User", // optional if you have a user model
+  },
 });
 
 module.exports={OrdersSchema};

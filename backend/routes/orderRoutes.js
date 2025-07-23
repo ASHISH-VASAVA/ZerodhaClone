@@ -7,10 +7,18 @@ router.post("/newOrder", async (req, res) => {
   const { name, qty, price, mode, userId } = req.body;
 
   try {
-    const newOrder = new OrdersModel({ name, qty, price, mode, userId });
+    const newOrder = new OrdersModel({
+      name,
+      qty,
+      price,
+      mode,
+      userId, // ✅ store userId from frontend
+    });
+
     await newOrder.save();
-    res.status(201).json({ message: "Order placed successfully" });
+    res.status(201).json({ message: "Order placed successfully", order: newOrder });
   } catch (err) {
+    console.error("❌ Error placing order:", err);
     res.status(500).json({ error: "Failed to place order" });
   }
 });
