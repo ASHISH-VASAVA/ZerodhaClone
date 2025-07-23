@@ -38,7 +38,7 @@ function Login() {
       toast.success("Login successful!");
       setTimeout(() => {
         window.location.href = `https://zerodhaclonedashboard.onrender.com?username=${encodeURIComponent(
-          username
+          user.name
         )}`;
       }, 2000);
     } catch (err) {
