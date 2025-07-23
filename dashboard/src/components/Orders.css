@@ -6,30 +6,38 @@
   width: 100%;
   border: 1px solid #ddd;
   border-radius: 8px;
-  overflow: hidden;
   font-family: 'Segoe UI', sans-serif;
+  overflow: hidden;
 }
 
-.table-header, .table-row {
+.table-header,
+.table-row {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
   padding: 12px;
   border-bottom: 1px solid #eee;
 }
 
 .table-header {
-  background-color: #f8f8f8;
+  background-color: #f1f1f1;
   font-weight: bold;
-}
-
-.table-row {
-  background-color: #fff;
 }
 
 .table-row:nth-child(even) {
   background-color: #fafafa;
 }
 
-.table-row span {
-  padding: 4px;
+.delete-btn {
+  padding: 5px 10px;
+  background-color: #ff3b3b;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.2s ease;
+}
+
+.delete-btn:hover {
+  background-color: #d70000;
 }
