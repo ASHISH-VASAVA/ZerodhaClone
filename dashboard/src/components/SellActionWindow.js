@@ -10,6 +10,7 @@ const SellActionWindow = ({ uid }) => {
   const [stockPrice, setStockPrice] = useState(0.0);
 
   const { closeSellWindow } = useContext(GeneralContext);
+  const currentUserId = localStorage.getItem("userId");
 
   const handleSellClick = async () => {
     try {
