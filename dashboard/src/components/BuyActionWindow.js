@@ -1,5 +1,7 @@
 import React, { useState, useContext } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
+
 import GeneralContext from "./GeneralContext";
 import "./BuyActionWindow.css";
 
@@ -8,25 +10,18 @@ const BuyActionWindow = ({ uid }) => {
   const [stockPrice, setStockPrice] = useState(0.0);
 
   const { closeBuyWindow } = useContext(GeneralContext);
-  const currentUserId = localStorage.getItem("userId"); // Must be set after login
 
   const handleBuyClick = async () => {
-    if (!currentUserId) {
-      alert("⚠️ User not logged in!");
-      return;
-    }
-
     try {
-      const response = await axios.post("https://zerodha-backend-4r4d.onrender.com/newOrder", {
+      await axios.post("https://zerodha-backend-4r4d.onrender.com/newOrder", {
         name: uid,
-        qty: Number(stockQuantity),
-        price: Number(stockPrice),
+        qty: stockQuantity,
+        price: stockPrice,
         mode: "BUY",
-        userId: currentUserId,
       });
 
       alert("✅ Buy order successful!");
-      window.location.reload();
+      window.location.reload(); // Refresh page to update holdings
     } catch (error) {
       console.error("Buy error:", error);
       alert("❌ Buy order failed!");

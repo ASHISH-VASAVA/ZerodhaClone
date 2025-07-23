@@ -1,40 +1,30 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
+
 import GeneralContext from "./GeneralContext";
-import "./BuyActionWindow.css"; // Shared CSS
+import "./BuyActionWindow.css"; // Same styling
 
 const SellActionWindow = ({ uid }) => {
   const [stockQuantity, setStockQuantity] = useState(1);
   const [stockPrice, setStockPrice] = useState(0.0);
-  const [currentUserId, setCurrentUserId] = useState(null);
+
   const { closeSellWindow } = useContext(GeneralContext);
 
-  // Load userId from localStorage
-  useEffect(() => {
-    const storedId = localStorage.getItem("userId");
-    setCurrentUserId(storedId);
-  }, []);
-
   const handleSellClick = async () => {
-    if (!currentUserId) {
-      alert("❌ User ID missing. Please login again.");
-      return;
-    }
-
     try {
-      const res = await axios.post("https://zerodha-backend-4r4d.onrender.com/newOrder", {
-        name: uid, // stock name
-        qty: Number(stockQuantity),
-        price: Number(stockPrice),
+      await axios.post("https://zerodha-backend-4r4d.onrender.com/newOrder", {
+        name: uid,
+        qty: stockQuantity,
+        price: stockPrice,
         mode: "SELL",
-        userId: currentUserId, // from localStorage
       });
 
-      alert("✅ Sell order placed successfully!");
-      window.location.reload(); // Refresh holdings
+      alert("✅ Sell order successful!");
+      window.location.reload(); // Refresh page to update holdings
     } catch (error) {
       console.error("Sell error:", error);
-      alert("❌ Sell order failed! Check console for details.");
+      alert("❌ Sell order failed!");
     } finally {
       closeSellWindow();
     }
@@ -54,7 +44,6 @@ const SellActionWindow = ({ uid }) => {
               type="number"
               name="qty"
               id="qty"
-              min="1"
               onChange={(e) => setStockQuantity(e.target.value)}
               value={stockQuantity}
             />
@@ -66,7 +55,6 @@ const SellActionWindow = ({ uid }) => {
               name="price"
               id="price"
               step="0.05"
-              min="0"
               onChange={(e) => setStockPrice(e.target.value)}
               value={stockPrice}
             />
