@@ -4,6 +4,8 @@ A full-stack **Zerodha-inspired stock trading platform** where users can sign up
 
 This project mirrors core functionality of India's leading stockbroker, **Zerodha**, and is built using modern web technologies with a clean, responsive UI.
 
+🔗 Live Demo: https://zerodhaclonefrontend-t4pc.onrender.com
+
 ---
 
 ## 🚀 Features
