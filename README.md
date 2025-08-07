@@ -18,12 +18,3 @@ This project mirrors core functionality of India's leading stockbroker, **Zerodh
 - 🔄 **Seamless Redirection** – Frontend to Dashboard hosted separately
 
 ---
-
-## 🛠️ Tech Stack
-
-| Frontend       | Backend         | Database | Hosting       |
-|----------------|------------------|----------|----------------|
-| React.js v19.1 | Node.js + Express | MongoDB  | Render (Frontend + Backend + Dashboard) |
-| React Router v7.6 | Axios           | Mongoose |                |
-
----
